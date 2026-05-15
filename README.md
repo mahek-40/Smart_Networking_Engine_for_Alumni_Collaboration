@@ -398,7 +398,7 @@ Authorization: Bearer <token>
 
 ## 👨‍💻 Author
 
-**Your Name**
+**Mahek Patel**
 
 This project was built as part of my portfolio to demonstrate full-stack development skills, machine learning integration, and modern web application architecture.
 
