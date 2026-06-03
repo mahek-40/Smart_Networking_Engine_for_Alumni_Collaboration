@@ -16,6 +16,13 @@ import AnalyticsDashboard from '../pages/AnalyticsDashboard';
 import SettingsPage from '../pages/SettingsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
+// New pages
+import UserProfilePage from '../pages/UserProfilePage';
+import NotificationsPage from '../pages/NotificationsPage';
+import MyNetworkPage from '../pages/MyNetworkPage';
+import MyProjectsPage from '../pages/MyProjectsPage';
+import ProjectDetailsPage from '../pages/ProjectDetailsPage';
+
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
   if (isLoading) return (
@@ -42,9 +49,14 @@ const AppRouter = () => (
       }>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/user/:id" element={<UserProfilePage />} />
         <Route path="/recommendations" element={<RecommendationsPage />} />
         <Route path="/mentors" element={<MentorMatchingPage />} />
         <Route path="/collaboration" element={<CollaborationPage />} />
+        <Route path="/projects/:id" element={<ProjectDetailsPage />} />
+        <Route path="/my-projects" element={<MyProjectsPage />} />
+        <Route path="/network" element={<MyNetworkPage />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/search" element={<SmartSearchPage />} />
         <Route path="/analytics" element={<AnalyticsDashboard />} />
         <Route path="/settings" element={<SettingsPage />} />

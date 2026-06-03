@@ -46,7 +46,7 @@ const Navbar = ({ onMenuToggle, sidebarOpen }) => {
         >
           {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
-        <Link to="/dashboard" className={styles.logo} aria-label="Smart Networking Engine Home">
+        <Link to="/" className={styles.logo} aria-label="Smart Networking Engine Home">
           <div className={styles.logoIcon}>
             <Zap size={18} className={styles.logoZap} />
           </div>
@@ -128,7 +128,7 @@ const Navbar = ({ onMenuToggle, sidebarOpen }) => {
                     </Link>
                   ))}
                 </div>
-                <Link to="/dashboard" className={styles.viewAll} onClick={() => setShowNotifications(false)}>
+                <Link to="/notifications" className={styles.viewAll} onClick={() => setShowNotifications(false)}>
                   View all notifications
                 </Link>
               </motion.div>

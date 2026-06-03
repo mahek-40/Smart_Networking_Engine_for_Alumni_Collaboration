@@ -1,9 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, User, Sparkles, GraduationCap,
-  Network, Search, BarChart2, Settings, Zap, X
+  Network, Search, BarChart2, Settings, Zap, X, Users, FolderKanban
 } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
@@ -13,6 +13,8 @@ const navItems = [
   { to: '/recommendations', icon: Sparkles, label: 'AI Recommendations' },
   { to: '/mentors', icon: GraduationCap, label: 'Mentor Matching' },
   { to: '/collaboration', icon: Network, label: 'Collaboration' },
+  { to: '/network', icon: Users, label: 'My Network' },
+  { to: '/my-projects', icon: FolderKanban, label: 'My Projects' },
   { to: '/search', icon: Search, label: 'Smart Search' },
   { to: '/analytics', icon: BarChart2, label: 'Analytics' },
   { to: '/settings', icon: Settings, label: 'Settings' },
@@ -45,8 +47,8 @@ const Sidebar = ({ isOpen, onClose }) => {
           <X size={18} />
         </button>
 
-        {/* Logo area */}
-        <div className={styles.logoSection}>
+        {/* Logo area — links to landing page */}
+        <Link to="/" className={styles.logoSection} aria-label="Go to home page">
           <div className={styles.logoIcon}>
             <Zap size={20} color="white" />
           </div>
@@ -54,7 +56,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <span className={styles.logoMain}>SNE</span>
             <span className={styles.logoSub}>Alumni Platform</span>
           </div>
-        </div>
+        </Link>
 
         <nav className={styles.nav}>
           {navItems.map(({ to, icon: Icon, label }) => (

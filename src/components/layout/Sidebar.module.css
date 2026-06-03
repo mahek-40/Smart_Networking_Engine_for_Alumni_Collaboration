@@ -71,6 +71,13 @@
   padding: 24px 20px 20px;
   border-bottom: 1px solid #F1F5F9;
   margin-bottom: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.logoSection:hover {
+  opacity: 0.85;
 }
 
 .logoIcon {

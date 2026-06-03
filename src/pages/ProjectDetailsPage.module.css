@@ -1,0 +1,385 @@
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1rem;
+  text-align: center;
+}
+
+.notFoundIcon {
+  font-size: 4rem;
+}
+
+.notFound h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+}
+
+.notFound p {
+  color: var(--text-secondary, #64748b);
+}
+
+.backBtn,
+.backNav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 8px;
+  background: white;
+  color: var(--text-primary, #0f172a);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 1.25rem;
+}
+
+.backNav:hover {
+  border-color: #0077B5;
+  color: #0077B5;
+}
+
+/* Hero */
+.hero {
+  background: white;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+
+.heroTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.heroMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.stageBadge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.industryBadge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #F1F5F9;
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.matchScore {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #92400E;
+  background: #FEF3C7;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.joinBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  background: #0077B5;
+  color: white;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.joinBtn:hover:not(:disabled) {
+  background: #005A8B;
+}
+
+.joinBtn_pending {
+  background: #F59E0B;
+  cursor: default;
+}
+
+.joinBtn_accepted {
+  background: #10B981;
+  cursor: default;
+}
+
+.joinBtn_rejected {
+  background: #EF4444;
+  cursor: default;
+}
+
+.projectTitle {
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  margin: 0 0 0.75rem;
+}
+
+.projectDesc {
+  color: var(--text-secondary, #475569);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0 0 1.25rem;
+}
+
+.ownerRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border, #e2e8f0);
+}
+
+.ownerAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border, #e2e8f0);
+}
+
+.ownerName {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-primary, #0f172a);
+  margin: 0;
+}
+
+.ownerLabel {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #64748b);
+  margin: 0;
+}
+
+.timeline {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary, #64748b);
+}
+
+/* Details Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.cardIcon {
+  color: #0077B5;
+}
+
+.cardTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+  margin: 0;
+}
+
+.skillsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Team Progress */
+.teamNumbers {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.teamCurrent {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0077B5;
+}
+
+.teamSep {
+  font-size: 1.25rem;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.teamMax {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+}
+
+.teamLabel {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #64748b);
+  margin-left: 0.3rem;
+}
+
+.progressTrack {
+  height: 8px;
+  background: var(--gray-100, #f1f5f9);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(to right, #0077B5, #00A8F0);
+  border-radius: 4px;
+}
+
+.teamPct {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #64748b);
+  margin: 0;
+}
+
+/* Open Roles */
+.rolesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.roleItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+  color: var(--text-primary, #0f172a);
+  font-weight: 500;
+}
+
+.roleDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0077B5;
+  flex-shrink: 0;
+}
+
+/* Status Grid */
+.statusGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.statusRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.statusLabel {
+  color: var(--text-secondary, #64748b);
+}
+
+.statusValue {
+  font-weight: 600;
+  color: var(--text-primary, #0f172a);
+}
+
+/* CTA Footer */
+.ctaFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+  border: 1px solid #BFDBFE;
+  border-radius: 14px;
+  padding: 1.5rem 2rem;
+}
+
+.ctaTitle {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary, #0f172a);
+  margin: 0 0 0.3rem;
+}
+
+.ctaDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #475569);
+  margin: 0;
+}
+
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  background: #0077B5;
+  color: white;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.ctaBtn:hover {
+  background: #005A8B;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

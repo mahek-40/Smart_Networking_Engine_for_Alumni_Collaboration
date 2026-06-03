@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Search, Filter, Brain, Users, ChevronDown, X, ExternalLink } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Sparkles, Search, Filter, Brain, Users, ChevronDown, X, ExternalLink, Clock, CheckCircle } from 'lucide-react';
 import CompatibilityRing from '../components/shared/CompatibilityRing';
 import SkillTag from '../components/shared/SkillTag';
 import { CardSkeleton } from '../components/shared/LoadingSkeleton';
+import { useNetwork } from '../contexts/NetworkContext';
 import recommendations from '../data/recommendations.json';
 import styles from './RecommendationsPage.module.css';
 
@@ -11,13 +13,14 @@ const INDUSTRIES = ['All', 'Technology', 'AI Research', 'E-commerce', 'Artificia
 const EXPERIENCES = ['All', '1-3 years', '3-5 years', '5-8 years', '8+ years'];
 
 const RecommendationsPage = () => {
+  const navigate = useNavigate();
+  const { getStatus, sendRequest } = useNetwork();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [industry, setIndustry] = useState('All');
   const [experience, setExperience] = useState('All');
   const [minScore, setMinScore] = useState(0);
-  const [connected, setConnected] = useState({});
   const [expandedId, setExpandedId] = useState(null);
 
   useEffect(() => {
@@ -33,8 +36,10 @@ const RecommendationsPage = () => {
     return matchesQuery && matchesIndustry && matchesScore;
   });
 
-  const handleConnect = (id) => {
-    setConnected(prev => ({ ...prev, [id]: true }));
+  const handleConnect = (userId) => {
+    if (getStatus(userId) === 'none') {
+      sendRequest(userId);
+    }
   };
 
   return (
@@ -186,20 +191,38 @@ const RecommendationsPage = () => {
               </AnimatePresence>
 
               <div className={styles.cardActions}>
-                {!connected[rec.id] && !rec.isConnected ? (
-                  <motion.button
-                    className={styles.connectBtn}
-                    onClick={() => handleConnect(rec.id)}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    <Users size={15} /> Connect
-                  </motion.button>
-                ) : (
-                  <button className={styles.connectedBtn} disabled>
-                    {rec.isConnected ? '✓ Connected' : '✓ Request Sent'}
-                  </button>
-                )}
-                <button className={styles.profileBtn}>
+                {(() => {
+                  const status = getStatus(rec.userId);
+                  if (status === 'none' && !rec.isConnected) {
+                    return (
+                      <motion.button
+                        className={styles.connectBtn}
+                        onClick={() => handleConnect(rec.userId)}
+                        whileTap={{ scale: 0.97 }}
+                        id={`connect-rec-${rec.id}`}
+                      >
+                        <Users size={15} /> Connect
+                      </motion.button>
+                    );
+                  } else if (status === 'pending') {
+                    return (
+                      <button className={styles.pendingBtn} disabled>
+                        <Clock size={15} /> Pending
+                      </button>
+                    );
+                  } else {
+                    return (
+                      <button className={styles.connectedBtn} disabled>
+                        <CheckCircle size={15} /> {rec.isConnected ? 'Connected' : 'Request Sent'}
+                      </button>
+                    );
+                  }
+                })()}
+                <button
+                  className={styles.profileBtn}
+                  onClick={() => navigate(`/user/${rec.userId}`)}
+                  id={`view-profile-rec-${rec.id}`}
+                >
                   <ExternalLink size={14} /> View Profile
                 </button>
               </div>
