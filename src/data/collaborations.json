@@ -1,0 +1,107 @@
+{
+  "activeProjects": [
+    {
+      "id": "p1",
+      "title": "AI-Powered Resume Analyzer",
+      "description": "Building an NLP-based tool that analyzes resumes and provides personalized feedback for job seekers.",
+      "owner": "Arjun Sharma",
+      "ownerAvatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Arjun",
+      "collaborators": 3,
+      "maxCollaborators": 5,
+      "skills": ["Python", "NLP", "React", "FastAPI"],
+      "stage": "In Development",
+      "matchScore": 94,
+      "openRoles": ["Frontend Dev", "ML Engineer"],
+      "industry": "AI/ML",
+      "timeline": "3 months"
+    },
+    {
+      "id": "p2",
+      "title": "Alumni Mentorship Mobile App",
+      "description": "Cross-platform mobile application to connect alumni mentors with recent graduates for career guidance.",
+      "owner": "Priya Nair",
+      "ownerAvatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Priya",
+      "collaborators": 2,
+      "maxCollaborators": 4,
+      "skills": ["React Native", "Node.js", "MongoDB", "UI/UX"],
+      "stage": "Planning",
+      "matchScore": 87,
+      "openRoles": ["React Native Dev", "Backend Dev"],
+      "industry": "EdTech",
+      "timeline": "6 months"
+    },
+    {
+      "id": "p3",
+      "title": "Real-time Stock Prediction Dashboard",
+      "description": "ML pipeline for stock market trend prediction with a live Recharts-powered visualization dashboard.",
+      "owner": "Rahul Mehta",
+      "ownerAvatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Rahul",
+      "collaborators": 1,
+      "maxCollaborators": 3,
+      "skills": ["Python", "TensorFlow", "Data Science", "React"],
+      "stage": "MVP Ready",
+      "matchScore": 81,
+      "openRoles": ["Full Stack Dev", "Data Scientist"],
+      "industry": "FinTech",
+      "timeline": "2 months"
+    },
+    {
+      "id": "p4",
+      "title": "Open-Source DevOps Toolkit",
+      "description": "A collection of reusable CI/CD templates and infrastructure-as-code modules for cloud-native teams.",
+      "owner": "Kavya Reddy",
+      "ownerAvatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Kavya",
+      "collaborators": 4,
+      "maxCollaborators": 6,
+      "skills": ["Docker", "Kubernetes", "Terraform", "AWS"],
+      "stage": "Open Source",
+      "matchScore": 76,
+      "openRoles": ["DevOps Engineer", "Technical Writer"],
+      "industry": "Cloud",
+      "timeline": "Ongoing"
+    },
+    {
+      "id": "p5",
+      "title": "DeFi Yield Aggregator Protocol",
+      "description": "Smart contract system that automatically routes funds to highest-yield DeFi protocols on Polygon.",
+      "owner": "Aditya Kumar",
+      "ownerAvatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Aditya",
+      "collaborators": 2,
+      "maxCollaborators": 4,
+      "skills": ["Solidity", "Web3.js", "React", "DeFi"],
+      "stage": "Alpha Testing",
+      "matchScore": 72,
+      "openRoles": ["Solidity Dev", "Frontend Dev"],
+      "industry": "Web3",
+      "timeline": "4 months"
+    },
+    {
+      "id": "p6",
+      "title": "AI Safety Research Platform",
+      "description": "Collaborative research tool for benchmarking and studying AI alignment and safety properties.",
+      "owner": "Meera Pillai",
+      "ownerAvatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Meera",
+      "collaborators": 3,
+      "maxCollaborators": 5,
+      "skills": ["Python", "JAX", "Research", "ML"],
+      "stage": "Research Phase",
+      "matchScore": 88,
+      "openRoles": ["Research Scientist", "ML Engineer"],
+      "industry": "AI Research",
+      "timeline": "12 months"
+    }
+  ],
+  "predictionScores": [
+    { "userId": "u1", "name": "Arjun Sharma", "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Arjun", "score": 94, "reason": "Shared Python & ML stack with complementary system design expertise" },
+    { "userId": "u2", "name": "Priya Nair", "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Priya", "score": 87, "reason": "Strong PM background complements your full-stack development skills" },
+    { "userId": "u8", "name": "Meera Pillai", "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Meera", "score": 88, "reason": "Aligned AI/ML interests and research collaboration potential" },
+    { "userId": "u3", "name": "Rahul Mehta", "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Rahul", "score": 81, "reason": "Shared data science interests with different domain expertise" },
+    { "userId": "u5", "name": "Vikram Joshi", "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Vikram", "score": 91, "reason": "Entrepreneurial synergy — startup ecosystem and AI product focus" }
+  ],
+  "networkStats": {
+    "potentialCollaborations": 47,
+    "activeRequests": 8,
+    "successRate": 73,
+    "avgResponseTime": "2.3 days"
+  }
+}

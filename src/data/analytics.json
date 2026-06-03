@@ -1,0 +1,89 @@
+{
+  "profileViews": [
+    { "date": "Jan", "views": 42, "uniqueVisitors": 31 },
+    { "date": "Feb", "views": 58, "uniqueVisitors": 44 },
+    { "date": "Mar", "views": 71, "uniqueVisitors": 52 },
+    { "date": "Apr", "views": 95, "uniqueVisitors": 73 },
+    { "date": "May", "views": 128, "uniqueVisitors": 98 },
+    { "date": "Jun", "views": 164, "uniqueVisitors": 127 },
+    { "date": "Jul", "views": 203, "uniqueVisitors": 158 },
+    { "date": "Aug", "views": 189, "uniqueVisitors": 143 },
+    { "date": "Sep", "views": 241, "uniqueVisitors": 192 },
+    { "date": "Oct", "views": 287, "uniqueVisitors": 218 },
+    { "date": "Nov", "views": 312, "uniqueVisitors": 247 },
+    { "date": "Dec", "views": 342, "uniqueVisitors": 278 }
+  ],
+  "userGrowth": [
+    { "month": "Jan", "users": 1200, "newUsers": 180, "activeUsers": 890 },
+    { "month": "Feb", "users": 1450, "newUsers": 250, "activeUsers": 1100 },
+    { "month": "Mar", "users": 1820, "newUsers": 370, "activeUsers": 1380 },
+    { "month": "Apr", "users": 2340, "newUsers": 520, "activeUsers": 1750 },
+    { "month": "May", "users": 2890, "newUsers": 550, "activeUsers": 2150 },
+    { "month": "Jun", "users": 3620, "newUsers": 730, "activeUsers": 2780 },
+    { "month": "Jul", "users": 4150, "newUsers": 530, "activeUsers": 3200 },
+    { "month": "Aug", "users": 4980, "newUsers": 830, "activeUsers": 3890 },
+    { "month": "Sep", "users": 5870, "newUsers": 890, "activeUsers": 4600 },
+    { "month": "Oct", "users": 6940, "newUsers": 1070, "activeUsers": 5420 },
+    { "month": "Nov", "users": 8120, "newUsers": 1180, "activeUsers": 6340 },
+    { "month": "Dec", "users": 9450, "newUsers": 1330, "activeUsers": 7420 }
+  ],
+  "matchRates": [
+    { "week": "W1", "generated": 234, "accepted": 187, "rate": 79.9 },
+    { "week": "W2", "generated": 278, "accepted": 223, "rate": 80.2 },
+    { "week": "W3", "generated": 312, "accepted": 256, "rate": 82.1 },
+    { "week": "W4", "generated": 298, "accepted": 247, "rate": 82.9 },
+    { "week": "W5", "generated": 345, "accepted": 290, "rate": 84.1 },
+    { "week": "W6", "generated": 389, "accepted": 328, "rate": 84.3 },
+    { "week": "W7", "generated": 412, "accepted": 351, "rate": 85.2 },
+    { "week": "W8", "generated": 443, "accepted": 381, "rate": 86.0 }
+  ],
+  "topSkills": [
+    { "skill": "Python", "count": 1243, "growth": 23 },
+    { "skill": "Machine Learning", "count": 987, "growth": 31 },
+    { "skill": "React", "count": 876, "growth": 18 },
+    { "skill": "Data Science", "count": 754, "growth": 27 },
+    { "skill": "FastAPI", "count": 623, "growth": 45 },
+    { "skill": "Docker", "count": 567, "growth": 12 },
+    { "skill": "AWS", "count": 498, "growth": 15 },
+    { "skill": "Kubernetes", "count": 445, "growth": 22 }
+  ],
+  "topIndustries": [
+    { "name": "Technology", "value": 38, "color": "#0077B5" },
+    { "name": "AI/ML", "value": 22, "color": "#005A8B" },
+    { "name": "FinTech", "value": 14, "color": "#004170" },
+    { "name": "EdTech", "value": 11, "color": "#0091DA" },
+    { "name": "Healthcare", "value": 9, "color": "#00A8F0" },
+    { "name": "Others", "value": 6, "color": "#7CB9D3" }
+  ],
+  "activityTrends": [
+    { "day": "Mon", "connections": 12, "messages": 34, "recommendations": 8 },
+    { "day": "Tue", "connections": 19, "messages": 45, "recommendations": 12 },
+    { "day": "Wed", "connections": 15, "messages": 38, "recommendations": 10 },
+    { "day": "Thu", "connections": 23, "messages": 52, "recommendations": 15 },
+    { "day": "Fri", "connections": 28, "messages": 61, "recommendations": 19 },
+    { "day": "Sat", "connections": 8, "messages": 22, "recommendations": 6 },
+    { "day": "Sun", "connections": 5, "messages": 15, "recommendations": 4 }
+  ],
+  "kpis": {
+    "totalConnections": 156,
+    "connectionsGrowth": 12.5,
+    "engagementRate": 68.4,
+    "engagementGrowth": 5.2,
+    "mentorSessions": 3,
+    "mentorSuccess": 91.0,
+    "matchAccuracy": 87.3,
+    "matchAccuracyGrowth": 3.8,
+    "profileViews": 342,
+    "profileViewsGrowth": 18.7,
+    "recommendations": 48,
+    "recommendationsGrowth": 22.1
+  },
+  "radarSkills": [
+    { "subject": "Technical", "score": 85, "fullMark": 100 },
+    { "subject": "Leadership", "score": 62, "fullMark": 100 },
+    { "subject": "Communication", "score": 78, "fullMark": 100 },
+    { "subject": "Problem Solving", "score": 90, "fullMark": 100 },
+    { "subject": "Collaboration", "score": 73, "fullMark": 100 },
+    { "subject": "Innovation", "score": 82, "fullMark": 100 }
+  ]
+}

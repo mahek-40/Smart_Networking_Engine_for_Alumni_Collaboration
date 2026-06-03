@@ -1,0 +1,115 @@
+.footer {
+  background: #0F172A;
+  color: #CBD5E1;
+  padding: 72px 0 32px;
+  margin-top: auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 56px;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; gap: 32px; }
+  .container { padding: 0 20px; }
+}
+
+.brand { display: flex; flex-direction: column; gap: 16px; }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #0077B5 0%, #005A8B 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tagline {
+  font-size: 0.875rem;
+  color: #94A3B8;
+  line-height: 1.7;
+  font-family: 'Inter', sans-serif;
+  max-width: 280px;
+}
+
+.socials { display: flex; gap: 8px; }
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #94A3B8;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.socialLink:hover { background: #0077B5; border-color: #0077B5; color: white; }
+
+.col { display: flex; flex-direction: column; gap: 12px; }
+
+.colTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.colLink {
+  font-size: 0.875rem;
+  color: #94A3B8;
+  font-family: 'Inter', sans-serif;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.colLink:hover { color: #0077B5; }
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.copyright, .madeWith {
+  font-size: 0.8rem;
+  color: #64748B;
+  font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 600px) {
+  .bottom { flex-direction: column; gap: 8px; text-align: center; }
+}

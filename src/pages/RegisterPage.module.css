@@ -1,0 +1,527 @@
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(at 30% 20%, rgba(0,119,181,0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(0,65,112,0.05) 0px, transparent 50%),
+    #F8FAFC;
+  padding: 48px 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #0077B5 0%, #005A8B 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.stepInfo {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748B;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 4px 12px;
+  margin: 0;
+}
+
+/* ── Progress Section ────────────────────────────────── */
+.progressSection {
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.stepsIndicator {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.stepDot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+}
+
+.stepDot::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  right: -50%;
+  height: 2px;
+  background: #E2E8F0;
+  z-index: 0;
+}
+
+.stepDot:last-child::after {
+  display: none;
+}
+
+.stepDot.stepActive::after,
+.stepDot.stepDone::after {
+  background: linear-gradient(90deg, #0077B5, #E2E8F0);
+}
+
+.stepCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #E2E8F0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94A3B8;
+  font-size: 0.75rem;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.stepDot.stepActive .stepCircle {
+  border-color: #0077B5;
+  background: #0077B5;
+  color: white;
+  box-shadow: 0 0 0 4px rgba(0,119,181,0.15);
+}
+
+.stepDot.stepDone .stepCircle {
+  border-color: #059669;
+  background: #059669;
+  color: white;
+}
+
+.stepLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #94A3B8;
+  transition: color 0.2s;
+}
+
+.stepDot.stepActive .stepLabel {
+  color: #0077B5;
+}
+
+.stepDot.stepDone .stepLabel {
+  color: #059669;
+}
+
+.progressBar {
+  height: 4px;
+  background: #E2E8F0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #0077B5, #004170);
+  border-radius: 2px;
+}
+
+/* ── Form Card ───────────────────────────────────────── */
+.formCard {
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+
+.stepContent {
+  margin-bottom: 24px;
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.stepIconBig {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #E8F4FD, #F0F8FF);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0077B5;
+  flex-shrink: 0;
+}
+
+.stepTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 4px 0;
+}
+
+.stepDesc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #64748B;
+  margin: 0;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.req {
+  color: #EF4444;
+}
+
+/* ── Inputs ──────────────────────────────────────────── */
+.input,
+.select {
+  padding: 12px 14px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #1E293B;
+  background: #F8FAFC;
+  outline: none;
+  transition: all 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus {
+  border-color: #0077B5;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0,119,181,0.1);
+}
+
+.inputError {
+  border-color: #EF4444;
+}
+
+.input::placeholder {
+  color: #94A3B8;
+}
+
+.textarea {
+  padding: 12px 14px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #1E293B;
+  background: #F8FAFC;
+  outline: none;
+  transition: all 0.2s;
+  width: 100%;
+  resize: vertical;
+  min-height: 100px;
+  box-sizing: border-box;
+}
+
+.textarea:focus {
+  border-color: #0077B5;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0,119,181,0.1);
+}
+
+.textarea::placeholder {
+  color: #94A3B8;
+}
+
+.error {
+  font-size: 0.78rem;
+  color: #EF4444;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: #94A3B8;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+}
+
+/* ── Chip Selectors ──────────────────────────────────── */
+.chipGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  background: white;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 99px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chip:hover {
+  border-color: #0077B5;
+  color: #0077B5;
+  background: #F0F8FF;
+}
+
+.chip.chipSelected {
+  background: #0077B5;
+  border-color: #0077B5;
+  color: white;
+}
+
+.chipInterest.chipSelected {
+  background: #000000;
+  border-color: #000000;
+}
+
+/* ── Summary Box ─────────────────────────────────────── */
+.summaryBox {
+  background: linear-gradient(135deg, #F0F8FF 0%, #E8F4FD 100%);
+  border: 1px solid rgba(0,119,181,0.15);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.summaryTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0077B5;
+  margin: 0 0 12px 0;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summaryKey {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: 'Inter', sans-serif;
+}
+
+.summaryVal {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Navigation ──────────────────────────────────────── */
+.formActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 20px;
+  background: white;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.backBtn:hover {
+  border-color: #0077B5;
+  color: #0077B5;
+}
+
+.nextBtn,
+.submitBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  background: linear-gradient(135deg, #0077B5 0%, #005A8B 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0,119,181,0.3);
+}
+
+.submitBtn {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 4px 12px rgba(5,150,105,0.3);
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ── Spinner ─────────────────────────────────────────── */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Footer ──────────────────────────────────────────── */
+.loginLink {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #64748B;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+}
+
+.loginAnchor {
+  color: #0077B5;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.loginAnchor:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .page {
+    padding: 24px 16px;
+  }
+
+  .formCard {
+    padding: 24px 20px;
+  }
+
+  .progressSection {
+    padding: 16px;
+  }
+
+  .stepsIndicator {
+    gap: 4px;
+  }
+
+  .stepLabel {
+    display: none;
+  }
+
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stepHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .formActions {
+    flex-wrap: wrap;
+  }
+
+  .nextBtn,
+  .submitBtn {
+    flex: 1;
+    justify-content: center;
+  }
+}

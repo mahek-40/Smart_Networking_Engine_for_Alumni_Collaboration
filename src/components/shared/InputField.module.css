@@ -1,0 +1,104 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  letter-spacing: 0.01em;
+}
+
+.required { color: #EF4444; }
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.inputWrapper:focus-within {
+  border-color: #0077B5;
+  box-shadow: 0 0 0 3px rgba(0, 119, 181, 0.12);
+}
+
+.inputWrapper.hasError {
+  border-color: #EF4444;
+}
+.inputWrapper.hasError:focus-within {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.inputWrapper.disabled {
+  background: #F8FAFC;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.input {
+  flex: 1;
+  padding: 12px 14px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #1E293B;
+  width: 100%;
+}
+
+.input::placeholder {
+  color: #94A3B8;
+}
+
+.input.hasIcon { padding-left: 40px; }
+.input.hasToggle { padding-right: 42px; }
+
+.iconLeft {
+  position: absolute;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  color: #94A3B8;
+  pointer-events: none;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+.togglePassword:hover { color: #0077B5; }
+
+.errorMsg {
+  font-size: 0.78rem;
+  color: #EF4444;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: #94A3B8;
+  font-family: 'Inter', sans-serif;
+}

@@ -1,0 +1,90 @@
+[
+  {
+    "id": "a1",
+    "type": "connection",
+    "message": "Arjun Sharma accepted your connection request",
+    "user": "Arjun Sharma",
+    "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Arjun",
+    "time": "2 minutes ago",
+    "timestamp": "2026-05-25T14:10:00Z",
+    "isRead": false,
+    "link": "/profile/u1"
+  },
+  {
+    "id": "a2",
+    "type": "recommendation",
+    "message": "AI matched you with Meera Pillai based on shared ML interests",
+    "user": "Meera Pillai",
+    "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Meera",
+    "time": "1 hour ago",
+    "timestamp": "2026-05-25T13:00:00Z",
+    "isRead": false,
+    "link": "/recommendations"
+  },
+  {
+    "id": "a3",
+    "type": "mentor",
+    "message": "Dr. Anand Krishnamurthy viewed your mentor request",
+    "user": "Dr. Anand Krishnamurthy",
+    "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Anand",
+    "time": "3 hours ago",
+    "timestamp": "2026-05-25T11:00:00Z",
+    "isRead": true,
+    "link": "/mentors"
+  },
+  {
+    "id": "a4",
+    "type": "profile",
+    "message": "12 people viewed your profile this week",
+    "user": null,
+    "avatar": null,
+    "time": "5 hours ago",
+    "timestamp": "2026-05-25T09:00:00Z",
+    "isRead": true,
+    "link": "/analytics"
+  },
+  {
+    "id": "a5",
+    "type": "connection",
+    "message": "Vikram Joshi wants to connect with you",
+    "user": "Vikram Joshi",
+    "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Vikram",
+    "time": "1 day ago",
+    "timestamp": "2026-05-24T14:00:00Z",
+    "isRead": true,
+    "link": "/profile/u5"
+  },
+  {
+    "id": "a6",
+    "type": "collaboration",
+    "message": "New collaboration prediction: 94% match with Priya Nair on EdTech project",
+    "user": "Priya Nair",
+    "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Priya",
+    "time": "2 days ago",
+    "timestamp": "2026-05-23T14:00:00Z",
+    "isRead": true,
+    "link": "/collaboration"
+  },
+  {
+    "id": "a7",
+    "type": "skill",
+    "message": "Your React skill is trending in your network — 28% growth this month",
+    "user": null,
+    "avatar": null,
+    "time": "3 days ago",
+    "timestamp": "2026-05-22T14:00:00Z",
+    "isRead": true,
+    "link": "/analytics"
+  },
+  {
+    "id": "a8",
+    "type": "mentor",
+    "message": "Nisha Kapoor accepted your mentorship request",
+    "user": "Nisha Kapoor",
+    "avatar": "https://api.dicebear.com/8.x/avataaars/svg?seed=Nisha",
+    "time": "4 days ago",
+    "timestamp": "2026-05-21T14:00:00Z",
+    "isRead": true,
+    "link": "/mentors"
+  }
+]

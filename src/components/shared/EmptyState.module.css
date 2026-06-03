@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 24px;
+  gap: 16px;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  background: #E8F4FD;
+  border-radius: 50%;
+  color: #0077B5;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #64748B;
+  max-width: 360px;
+  line-height: 1.6;
+}

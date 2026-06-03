@@ -1,0 +1,72 @@
+.card {
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.25s ease;
+  cursor: default;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.growth {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.positive {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.negative {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.body { display: flex; flex-direction: column; gap: 4px; }
+
+.value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1;
+}
+
+.title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.growthLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: #94A3B8;
+  margin-top: 2px;
+}
