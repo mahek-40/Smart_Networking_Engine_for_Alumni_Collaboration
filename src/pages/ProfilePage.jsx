@@ -6,6 +6,7 @@ import {
   Award, Target, Zap, Heart, TrendingUp, ExternalLink, X, Save
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNetwork } from '../contexts/NetworkContext';
 import CompatibilityRing from '../components/shared/CompatibilityRing';
 import SkillTag from '../components/shared/SkillTag';
 import StatCard from '../components/shared/StatCard';
@@ -15,22 +16,50 @@ const SKILL_LEVELS = {
   React: 92, FastAPI: 85, Python: 88, MongoDB: 78, Docker: 72, 'Machine Learning': 80,
 };
 
-const timeline = [
-  { year: '2024 – Present', role: 'Full Stack Developer', company: 'TechVentures Inc.', desc: 'Building AI-powered SaaS products using React and FastAPI. Leading the frontend architecture initiative.', icon: '💼' },
-  { year: '2023 – 2024', role: 'Junior Developer Intern', company: 'InnovateLab', desc: 'Developed reusable React component library. Contributed to 3 production deployments.', icon: '🚀' },
-  { year: '2018 – 2022', role: 'B.Tech Computer Science', company: 'BITS Pilani', desc: 'Graduated with 8.7 CGPA. Final project on AI-driven recommendation systems.', icon: '🎓' },
-];
+// Build dynamic timeline from user data
+const buildTimeline = (user) => {
+  const items = [];
+  if (user?.role && user?.company) {
+    items.push({
+      year: '2024 – Present',
+      role: user.role,
+      company: user.company,
+      desc: user.bio || 'Currently working in this role.',
+      icon: '💼',
+    });
+  }
+  if (user?.university) {
+    const degreeLabel = [user.degree, user.branch].filter(Boolean).join(' – ');
+    items.push({
+      year: user.graduationYear ? `${user.graduationYear - 4} – ${user.graduationYear}` : 'Education',
+      role: degreeLabel || 'Degree Program',
+      company: user.university,
+      desc: user.careerGoals ? `Career goal: ${user.careerGoals.slice(0, 120)}` : 'Completed academic program.',
+      icon: '🎓',
+    });
+  }
+  return items.length > 0 ? items : [
+    { year: '2024 – Present', role: 'Professional', company: 'Organization', desc: 'Working in the field.', icon: '💼' },
+  ];
+};
 
 const ProfilePage = () => {
   const { user, updateProfile } = useAuth();
+  const { getStatus, sendRequest } = useNetwork();
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({ bio: user?.bio || '', careerGoals: user?.careerGoals || '' });
   const [activeTab, setActiveTab] = useState('about');
   const [endorsed, setEndorsed] = useState({});
-  const [connected, setConnected] = useState(false);
+
+  const timeline = buildTimeline(user);
+  const connectionStatus = getStatus('current-self'); // This is your own profile so no connect button shown
 
   const handleSave = () => {
-    updateProfile(editForm);
+    updateProfile({
+      ...editForm,
+      university: editForm.university ?? user?.university,
+      branch: editForm.branch ?? user?.branch,
+    });
     setIsEditing(false);
   };
 
@@ -78,19 +107,6 @@ const ProfilePage = () => {
           <div className={styles.heroRight}>
             <CompatibilityRing score={user?.compatibilityScore || 96} size={90} strokeWidth={6} label="AI Score" />
             <div className={styles.heroActions}>
-              {!connected ? (
-                <motion.button
-                  className={styles.connectBtn}
-                  onClick={() => setConnected(true)}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <UserPlus size={15} /> Connect
-                </motion.button>
-              ) : (
-                <button className={styles.connectedBtn} disabled>
-                  <CheckCircle size={15} /> Connected
-                </button>
-              )}
               <button className={styles.messageBtn}><MessageSquare size={15} /> Message</button>
               <button
                 className={styles.editBtn}
@@ -172,9 +188,13 @@ const ProfilePage = () => {
                   <h2 className={styles.cardTitle}><Award size={16} /> Education</h2>
                 </div>
                 <div className={styles.eduInfo}>
-                  <p className={styles.eduDegree}>{user?.degree}</p>
-                  <p className={styles.eduUniv}>{user?.university}</p>
-                  <p className={styles.eduYear}>Class of {user?.graduationYear}</p>
+                  <p className={styles.eduDegree}>
+                    {[user?.degree, user?.branch].filter(Boolean).join(' – ') || 'Degree Program'}
+                  </p>
+                  <p className={styles.eduUniv}>{user?.university || 'University'}</p>
+                  <p className={styles.eduYear}>
+                    {user?.graduationYear ? `Class of ${user.graduationYear}` : 'Year not specified'}
+                  </p>
                 </div>
               </div>
             </div>
@@ -348,6 +368,24 @@ const ProfilePage = () => {
                   onChange={e => setEditForm(p => ({ ...p, careerGoals: e.target.value }))}
                   rows={3}
                   id="edit-career-goals"
+                />
+                <label className={styles.formLabel}>University / College</label>
+                <input
+                  className={styles.formTextarea}
+                  style={{ height: 'auto', padding: '10px 14px' }}
+                  value={editForm.university ?? user?.university ?? ''}
+                  onChange={e => setEditForm(p => ({ ...p, university: e.target.value }))}
+                  id="edit-university"
+                  placeholder="e.g. IIT Bombay"
+                />
+                <label className={styles.formLabel}>Branch / Specialization</label>
+                <input
+                  className={styles.formTextarea}
+                  style={{ height: 'auto', padding: '10px 14px' }}
+                  value={editForm.branch ?? user?.branch ?? ''}
+                  onChange={e => setEditForm(p => ({ ...p, branch: e.target.value }))}
+                  id="edit-branch"
+                  placeholder="e.g. Computer Science"
                 />
               </div>
               <div className={styles.modalActions}>

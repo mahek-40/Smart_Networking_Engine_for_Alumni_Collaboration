@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, User, Briefcase, Code, Target, Zap } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, User, Briefcase, GraduationCap, Code, Target, Zap } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import styles from './RegisterPage.module.css';
 
 const STEPS = [
   { id: 1, title: 'Basic Info', icon: User, desc: 'Name, email & password' },
   { id: 2, title: 'Professional', icon: Briefcase, desc: 'Industry, role & experience' },
-  { id: 3, title: 'Skills', icon: Code, desc: 'Technical skills & interests' },
-  { id: 4, title: 'Goals', icon: Target, desc: 'Bio & career goals' },
+  { id: 3, title: 'Education', icon: GraduationCap, desc: 'University, degree & year' },
+  { id: 4, title: 'Skills', icon: Code, desc: 'Technical skills & interests' },
+  { id: 5, title: 'Goals', icon: Target, desc: 'Bio & career goals' },
 ];
 
 const SKILL_OPTIONS = [
@@ -33,6 +34,15 @@ const EXPERIENCE_LEVELS = [
   'Student / Intern', '0–1 years', '1–3 years', '3–5 years', '5–10 years', '10+ years'
 ];
 
+const DEGREE_OPTIONS = [
+  'B.Tech', 'B.E.', 'B.Sc', 'B.Com', 'B.A.', 'BBA', 'BCA',
+  'M.Tech', 'M.E.', 'M.Sc', 'MBA', 'MCA', 'M.A.',
+  'PhD', 'B.Design', 'B.Arch', 'Other',
+];
+
+const CURRENT_YEAR = new Date().getFullYear();
+const GRADUATION_YEARS = Array.from({ length: 15 }, (_, i) => CURRENT_YEAR - 10 + i);
+
 const RegisterPage = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -46,6 +56,12 @@ const RegisterPage = () => {
     role: '',
     experience: '',
     company: '',
+    // Education fields
+    university: '',
+    degree: '',
+    branch: '',
+    graduationYear: '',
+    // Skills & Interests
     skills: [],
     interests: [],
     bio: '',
@@ -74,13 +90,18 @@ const RegisterPage = () => {
       if (!formData.role.trim()) errs.role = 'Job role is required';
     }
     if (step === 3) {
+      if (!formData.university.trim()) errs.university = 'University name is required';
+      if (!formData.degree) errs.degree = 'Please select a degree';
+      if (!formData.graduationYear) errs.graduationYear = 'Please select graduation year';
+    }
+    if (step === 4) {
       if (formData.skills.length === 0) errs.skills = 'Select at least one skill';
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
-  const next = () => { if (validate()) setStep(p => Math.min(p + 1, 4)); };
+  const next = () => { if (validate()) setStep(p => Math.min(p + 1, STEPS.length)); };
   const back = () => setStep(p => Math.max(p - 1, 1));
 
   const handleSubmit = async () => {
@@ -140,6 +161,7 @@ const RegisterPage = () => {
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.35, ease: 'easeInOut' }}
             >
+              {/* Step 1: Basic Info */}
               {step === 1 && (
                 <div className={styles.stepContent}>
                   <div className={styles.stepHeader}>
@@ -197,6 +219,7 @@ const RegisterPage = () => {
                 </div>
               )}
 
+              {/* Step 2: Professional */}
               {step === 2 && (
                 <div className={styles.stepContent}>
                   <div className={styles.stepHeader}>
@@ -267,7 +290,84 @@ const RegisterPage = () => {
                 </div>
               )}
 
+              {/* Step 3: Education */}
               {step === 3 && (
+                <div className={styles.stepContent}>
+                  <div className={styles.stepHeader}>
+                    <div className={styles.stepIconBig}><GraduationCap size={24} /></div>
+                    <div>
+                      <h2 className={styles.stepTitle}>Education Information</h2>
+                      <p className={styles.stepDesc}>Tell us about your academic background</p>
+                    </div>
+                  </div>
+                  <div className={styles.fields}>
+                    <div className={styles.field}>
+                      <label htmlFor="university" className={styles.label}>
+                        College / University <span className={styles.req}>*</span>
+                      </label>
+                      <input
+                        id="university"
+                        type="text"
+                        className={`${styles.input} ${errors.university ? styles.inputError : ''}`}
+                        placeholder="e.g. IIT Bombay, BITS Pilani, NIT Trichy"
+                        value={formData.university}
+                        onChange={e => update('university', e.target.value)}
+                      />
+                      {errors.university && <p className={styles.error}>{errors.university}</p>}
+                    </div>
+                    <div className={styles.field}>
+                      <label htmlFor="degree" className={styles.label}>
+                        Degree <span className={styles.req}>*</span>
+                      </label>
+                      <select
+                        id="degree"
+                        className={`${styles.select} ${errors.degree ? styles.inputError : ''}`}
+                        value={formData.degree}
+                        onChange={e => update('degree', e.target.value)}
+                      >
+                        <option value="">Select your degree</option>
+                        {DEGREE_OPTIONS.map(d => (
+                          <option key={d} value={d}>{d}</option>
+                        ))}
+                      </select>
+                      {errors.degree && <p className={styles.error}>{errors.degree}</p>}
+                    </div>
+                    <div className={styles.field}>
+                      <label htmlFor="branch" className={styles.label}>
+                        Branch / Specialization
+                      </label>
+                      <input
+                        id="branch"
+                        type="text"
+                        className={styles.input}
+                        placeholder="e.g. Computer Science, Electronics, MBA Finance"
+                        value={formData.branch}
+                        onChange={e => update('branch', e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.field}>
+                      <label htmlFor="graduationYear" className={styles.label}>
+                        Graduation Year <span className={styles.req}>*</span>
+                      </label>
+                      <select
+                        id="graduationYear"
+                        className={`${styles.select} ${errors.graduationYear ? styles.inputError : ''}`}
+                        value={formData.graduationYear}
+                        onChange={e => update('graduationYear', e.target.value)}
+                      >
+                        <option value="">Select graduation year</option>
+                        {GRADUATION_YEARS.map(y => (
+                          <option key={y} value={y}>{y}</option>
+                        ))}
+                      </select>
+                      {errors.graduationYear && <p className={styles.error}>{errors.graduationYear}</p>}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: Skills & Interests */}
+              {step === 4 && (
                 <div className={styles.stepContent}>
                   <div className={styles.stepHeader}>
                     <div className={styles.stepIconBig}><Code size={24} /></div>
@@ -317,7 +417,8 @@ const RegisterPage = () => {
                 </div>
               )}
 
-              {step === 4 && (
+              {/* Step 5: Career Goals */}
+              {step === 5 && (
                 <div className={styles.stepContent}>
                   <div className={styles.stepHeader}>
                     <div className={styles.stepIconBig}><Target size={24} /></div>
@@ -357,6 +458,9 @@ const RegisterPage = () => {
                           ['Name', formData.name],
                           ['Industry', formData.industry],
                           ['Role', formData.role],
+                          ['University', formData.university],
+                          ['Degree', `${formData.degree}${formData.branch ? ' – ' + formData.branch : ''}`],
+                          ['Graduation', formData.graduationYear ? `Class of ${formData.graduationYear}` : ''],
                           [
                             'Skills',
                             formData.skills.slice(0, 3).join(', ') +
@@ -385,7 +489,7 @@ const RegisterPage = () => {
               </button>
             )}
             <div style={{ flex: 1 }} />
-            {step < 4 ? (
+            {step < STEPS.length ? (
               <motion.button
                 type="button"
                 className={styles.nextBtn}
