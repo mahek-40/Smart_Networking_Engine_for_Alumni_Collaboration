@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, Search, Star, Clock, Users, CheckCircle, X, Brain, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { GraduationCap, Search, Star, Clock, Users, CheckCircle, X, Brain, Zap, ExternalLink } from 'lucide-react';
 import CompatibilityRing from '../components/shared/CompatibilityRing';
 import SkillTag from '../components/shared/SkillTag';
 import { CardSkeleton } from '../components/shared/LoadingSkeleton';
@@ -8,6 +9,7 @@ import mentors from '../data/mentors.json';
 import styles from './MentorMatchingPage.module.css';
 
 const MentorMatchingPage = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
@@ -157,7 +159,13 @@ const MentorMatchingPage = () => {
                     <><GraduationCap size={15} /> Request Mentorship</>
                   )}
                 </motion.button>
-                <button className={styles.viewBtn}>View Profile</button>
+                <button
+                  className={styles.viewBtn}
+                  onClick={() => navigate(`/user/${mentor.id}`)}
+                  id={`view-mentor-${mentor.id}`}
+                >
+                  <ExternalLink size={14} /> View Profile
+                </button>
               </div>
             </motion.div>
           ))

@@ -312,10 +312,31 @@
 
 .connectedBtn {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 10px;
   background: #F0FDF4;
   color: #059669;
   border: 1.5px solid #BBF7D0;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: default;
+}
+
+.pendingBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1.5px solid #FDE68A;
   border-radius: 10px;
   font-family: 'Poppins', sans-serif;
   font-size: 0.85rem;
