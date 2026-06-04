@@ -190,10 +190,24 @@ const LoginPage = () => {
           </div>
 
           <div className={styles.socialBtns}>
-            {['Google', 'LinkedIn', 'GitHub'].map(provider => (
-              <button key={provider} className={styles.socialBtn}>
-                {provider}
-              </button>
+            {[
+              { provider: 'Google', icon: '🔵' },
+              { provider: 'LinkedIn', icon: '💼' },
+              { provider: 'GitHub', icon: '⚫' },
+            ].map(({ provider, icon }) => (
+              <div key={provider} className={styles.socialBtnWrapper}>
+                <button
+                  key={provider}
+                  className={styles.socialBtn}
+                  disabled
+                  title="Coming Soon"
+                  aria-label={`${provider} sign in — coming soon`}
+                >
+                  <span className={styles.socialIcon}>{icon}</span>
+                  {provider}
+                </button>
+                <span className={styles.comingSoonBadge}>Soon</span>
+              </div>
             ))}
           </div>
 

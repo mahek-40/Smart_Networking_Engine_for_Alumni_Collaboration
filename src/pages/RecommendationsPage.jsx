@@ -133,7 +133,7 @@ const RecommendationsPage = () => {
                   <div className={styles.nameRow}>
                     <h3 className={styles.name}>{rec.name}</h3>
                     {rec.isConnected && <span className={styles.connectedBadge}>Connected</span>}
-                    {connected[rec.id] && !rec.isConnected && <span className={styles.pendingBadge}>Request Sent</span>}
+                    {getStatus(rec.userId) === 'pending' && !rec.isConnected && <span className={styles.pendingBadge}>Request Sent</span>}
                   </div>
                   <p className={styles.role}>{rec.role}</p>
                   <p className={styles.company}>@ {rec.company} &bull; {rec.industry}</p>

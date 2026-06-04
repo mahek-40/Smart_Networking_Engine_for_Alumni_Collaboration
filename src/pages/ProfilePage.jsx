@@ -107,7 +107,6 @@ const ProfilePage = () => {
           <div className={styles.heroRight}>
             <CompatibilityRing score={user?.compatibilityScore || 96} size={90} strokeWidth={6} label="AI Score" />
             <div className={styles.heroActions}>
-              <button className={styles.messageBtn}><MessageSquare size={15} /> Message</button>
               <button
                 className={styles.editBtn}
                 onClick={() => setIsEditing(true)}

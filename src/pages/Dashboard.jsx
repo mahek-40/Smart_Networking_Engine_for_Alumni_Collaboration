@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Users, BookOpen, Star, Eye, ArrowRight, Brain, Sparkles,
@@ -41,6 +41,7 @@ const getActivityIcon = (type) => {
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [greeting, setGreeting] = useState('Good morning');
 
   useEffect(() => {
@@ -145,8 +146,18 @@ const Dashboard = () => {
                 {rec.matchReasons[0]}
               </p>
               <div className={styles.recActions}>
-                <Link to="/recommendations" className={styles.recConnectBtn}>Connect</Link>
-                <Link to="/recommendations" className={styles.recViewBtn}>View Profile</Link>
+                <button
+                  className={styles.recConnectBtn}
+                  onClick={() => navigate('/recommendations')}
+                >
+                  Connect
+                </button>
+                <button
+                  className={styles.recViewBtn}
+                  onClick={() => navigate(`/user/${rec.userId}`)}
+                >
+                  View Profile
+                </button>
               </div>
             </motion.div>
           ))}
@@ -170,25 +181,27 @@ const Dashboard = () => {
           </div>
           <div className={styles.mentorsList}>
             {topMentors.map((mentor, i) => (
-              <motion.div
-                key={mentor.id}
-                className={styles.mentorItem}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 + i * 0.1 }}
-                whileHover={{ x: 4 }}
-              >
-                <img src={mentor.avatar} alt={mentor.name} className={styles.mentorAvatar} />
-                <div className={styles.mentorInfo}>
-                  <p className={styles.mentorName}>{mentor.name}</p>
-                  <p className={styles.mentorRole}>{mentor.role} @ {mentor.company}</p>
-                  <div className={styles.mentorMeta}>
-                    <span className={styles.mentorRating}>⭐ {mentor.rating}</span>
-                    <span className={styles.mentorExp}>{mentor.experience}</span>
+                <motion.div
+                  key={mentor.id}
+                  className={styles.mentorItem}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 + i * 0.1 }}
+                  whileHover={{ x: 4 }}
+                  onClick={() => navigate(`/user/${mentor.id}`)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <img src={mentor.avatar} alt={mentor.name} className={styles.mentorAvatar} />
+                  <div className={styles.mentorInfo}>
+                    <p className={styles.mentorName}>{mentor.name}</p>
+                    <p className={styles.mentorRole}>{mentor.role} @ {mentor.company}</p>
+                    <div className={styles.mentorMeta}>
+                      <span className={styles.mentorRating}>⭐ {mentor.rating}</span>
+                      <span className={styles.mentorExp}>{mentor.experience}</span>
+                    </div>
                   </div>
-                </div>
-                <div className={styles.mentorScore}>{mentor.compatibilityScore}%</div>
-              </motion.div>
+                  <div className={styles.mentorScore}>{mentor.compatibilityScore}%</div>
+                </motion.div>
             ))}
           </div>
         </motion.section>
@@ -205,6 +218,9 @@ const Dashboard = () => {
               <Clock size={18} className={styles.sectionIcon} />
               <h2 className={styles.sectionTitle}>Recent Activity</h2>
             </div>
+            <Link to="/notifications" className={styles.viewAll}>
+              See All <ChevronRight size={14} />
+            </Link>
           </div>
           <div className={styles.activityList}>
             {recentActivities.map((activity, i) => {
@@ -216,6 +232,8 @@ const Dashboard = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 + i * 0.08 }}
+                  onClick={() => navigate(activity.link || '/notifications')}
+                  style={{ cursor: 'pointer' }}
                 >
                   <div className={styles.activityDot} style={{ background: color }}>
                     <span style={{ fontSize: '0.75rem' }}>{emoji}</span>

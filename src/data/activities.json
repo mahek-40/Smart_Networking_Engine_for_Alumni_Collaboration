@@ -8,7 +8,7 @@
     "time": "2 minutes ago",
     "timestamp": "2026-05-25T14:10:00Z",
     "isRead": false,
-    "link": "/profile/u1"
+    "link": "/user/u1"
   },
   {
     "id": "a2",
@@ -30,7 +30,7 @@
     "time": "3 hours ago",
     "timestamp": "2026-05-25T11:00:00Z",
     "isRead": true,
-    "link": "/mentors"
+    "link": "/user/m1"
   },
   {
     "id": "a4",
@@ -52,7 +52,7 @@
     "time": "1 day ago",
     "timestamp": "2026-05-24T14:00:00Z",
     "isRead": true,
-    "link": "/profile/u5"
+    "link": "/user/u5"
   },
   {
     "id": "a6",
@@ -85,6 +85,6 @@
     "time": "4 days ago",
     "timestamp": "2026-05-21T14:00:00Z",
     "isRead": true,
-    "link": "/mentors"
+    "link": "/network"
   }
 ]

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
   PieChart, Pie, Cell, RadarChart, Radar, PolarGrid,
@@ -8,11 +8,47 @@ import {
 } from 'recharts';
 import {
   BarChart2, TrendingUp, Users, Eye, Brain, Star,
-  Target, Zap, Download, Calendar
+  Target, Zap, Download, Calendar, FileText, FileJson
 } from 'lucide-react';
 import StatCard from '../components/shared/StatCard';
 import analyticsData from '../data/analytics.json';
 import styles from './AnalyticsDashboard.module.css';
+
+// --- Export Utilities ---
+const downloadBlob = (content, filename, type) => {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+const exportAsCSV = (data) => {
+  const { kpis, topSkills, profileViews } = data;
+  const rows = [
+    ['Metric', 'Value'],
+    ['Total Connections', kpis.totalConnections],
+    ['Profile Views', kpis.profileViews],
+    ['Engagement Rate (%)', kpis.engagementRate],
+    ['AI Match Accuracy (%)', kpis.matchAccuracy],
+    ['Mentor Sessions', kpis.mentorSessions],
+    ['Recommendations', kpis.recommendations],
+    [''],
+    ['Month', 'Profile Views', 'Unique Visitors'],
+    ...profileViews.map(pv => [pv.date, pv.views, pv.uniqueVisitors]),
+    [''],
+    ['Skill', 'Alumni Count', 'Growth (%)'],
+    ...topSkills.map(s => [s.skill, s.count, s.growth]),
+  ];
+  const csv = rows.map(r => r.join(',')).join('\n');
+  downloadBlob(csv, 'sne_analytics.csv', 'text/csv');
+};
+
+const exportAsJSON = (data) => {
+  downloadBlob(JSON.stringify(data, null, 2), 'sne_analytics.json', 'application/json');
+};
 
 const CHART_COLORS = {
   primary: '#0077B5',
@@ -42,11 +78,24 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const AnalyticsDashboard = () => {
   const [timeRange, setTimeRange] = useState('1 Year');
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  const exportRef = useRef(null);
   const { kpis, profileViews, userGrowth, matchRates, topSkills, topIndustries, activityTrends, radarSkills } = analyticsData;
 
   const profileViewsSlice = timeRange === '3 Months' ? profileViews.slice(-3)
     : timeRange === '6 Months' ? profileViews.slice(-6)
     : profileViews;
+
+  // Close export menu on outside click
+  useEffect(() => {
+    const handle = (e) => {
+      if (exportRef.current && !exportRef.current.contains(e.target)) {
+        setShowExportMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handle);
+    return () => document.removeEventListener('mousedown', handle);
+  }, []);
 
   return (
     <div className={styles.page}>
@@ -79,9 +128,43 @@ const AnalyticsDashboard = () => {
               </button>
             ))}
           </div>
-          <button className={styles.exportBtn} aria-label="Export analytics">
-            <Download size={14} /> Export
-          </button>
+          <div className={styles.exportWrapper} ref={exportRef}>
+            <button
+              className={styles.exportBtn}
+              onClick={() => setShowExportMenu(p => !p)}
+              aria-label="Export analytics"
+              aria-expanded={showExportMenu}
+              id="analytics-export-btn"
+            >
+              <Download size={14} /> Export
+            </button>
+            <AnimatePresence>
+              {showExportMenu && (
+                <motion.div
+                  className={styles.exportMenu}
+                  initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <button
+                    className={styles.exportMenuItem}
+                    onClick={() => { exportAsCSV(analyticsData); setShowExportMenu(false); }}
+                    id="export-csv-btn"
+                  >
+                    <FileText size={14} /> Export as CSV
+                  </button>
+                  <button
+                    className={styles.exportMenuItem}
+                    onClick={() => { exportAsJSON(analyticsData); setShowExportMenu(false); }}
+                    id="export-json-btn"
+                  >
+                    <FileJson size={14} /> Export as JSON
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </motion.div>
 

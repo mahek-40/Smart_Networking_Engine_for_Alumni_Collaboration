@@ -307,7 +307,16 @@
 
 .socialBtns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 24px; }
 
+.socialBtnWrapper {
+  position: relative;
+}
+
 .socialBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 10px;
   background: #F8FAFC;
   border: 1.5px solid #E2E8F0;
@@ -315,11 +324,31 @@
   font-family: 'Inter', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #334155;
-  cursor: pointer;
+  color: #94A3B8;
+  cursor: not-allowed;
+  opacity: 0.65;
   transition: all 0.2s;
 }
-.socialBtn:hover { border-color: #0077B5; color: #0077B5; background: #F0F8FF; }
+
+.socialIcon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.comingSoonBadge {
+  position: absolute;
+  top: -7px;
+  right: -4px;
+  background: #F59E0B;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
 
 .registerLink {
   text-align: center;

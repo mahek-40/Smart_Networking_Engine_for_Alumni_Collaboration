@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
   Network, Brain, Zap, Users, TrendingUp, CheckCircle,
   Clock, Star, ChevronRight, Target, Sparkles, Plus, X, UserPlus
@@ -8,6 +9,7 @@ import CompatibilityRing from '../components/shared/CompatibilityRing';
 import SkillTag from '../components/shared/SkillTag';
 import StatCard from '../components/shared/StatCard';
 import { CardSkeleton } from '../components/shared/LoadingSkeleton';
+import { useProject } from '../contexts/ProjectContext';
 import collaborationData from '../data/collaborations.json';
 import styles from './CollaborationPage.module.css';
 
@@ -21,10 +23,11 @@ const STAGE_COLORS = {
 };
 
 const CollaborationPage = () => {
+  const navigate = useNavigate();
+  const { getProjectStatus, applyToProject } = useProject();
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [predictions, setPredictions] = useState([]);
-  const [applied, setApplied] = useState({});
   const [applying, setApplying] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showScoreModal, setShowScoreModal] = useState(false);
@@ -38,9 +41,10 @@ const CollaborationPage = () => {
   }, []);
 
   const handleApply = async (projectId) => {
+    if (getProjectStatus(projectId) !== 'none') return;
     setApplying(projectId);
     await new Promise(r => setTimeout(r, 1200));
-    setApplied(prev => ({ ...prev, [projectId]: true }));
+    applyToProject(projectId);
     setApplying(null);
   };
 
@@ -262,21 +266,27 @@ const CollaborationPage = () => {
 
                   <div className={styles.projectActions}>
                     <motion.button
-                      className={`${styles.joinBtn} ${applied[project.id] ? styles.joinedBtn : ''}`}
-                      onClick={() => !applied[project.id] && handleApply(project.id)}
-                      disabled={!!applied[project.id] || applying === project.id}
+                      className={`${styles.joinBtn} ${getProjectStatus(project.id) !== 'none' ? styles.joinedBtn : ''}`}
+                      onClick={() => handleApply(project.id)}
+                      disabled={getProjectStatus(project.id) !== 'none' || applying === project.id}
                       whileTap={{ scale: 0.97 }}
                       id={`join-project-${project.id}`}
                     >
                       {applying === project.id ? (
                         <span className={styles.spinner} />
-                      ) : applied[project.id] ? (
+                      ) : getProjectStatus(project.id) !== 'none' ? (
                         <><CheckCircle size={14} /> Applied!</>
                       ) : (
                         <><Plus size={14} /> Join Project</>
                       )}
                     </motion.button>
-                    <button className={styles.viewBtn}><ChevronRight size={14} /> Details</button>
+                    <button
+                      className={styles.viewBtn}
+                      onClick={() => navigate(`/projects/${project.id}`)}
+                      id={`details-project-${project.id}`}
+                    >
+                      <ChevronRight size={14} /> Details
+                    </button>
                   </div>
                 </motion.div>
               );
