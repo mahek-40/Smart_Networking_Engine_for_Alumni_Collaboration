@@ -1,0 +1,11 @@
+{
+  "full_name": "John Doe",
+  "role": "Alumni",
+  "bio": "Experienced software engineer with a passion for open-source.",
+  "skills": ["Python", "FastAPI", "MongoDB", "Docker", "Machine Learning"],
+  "interests": ["AI", "Networking", "Open Source", "Mentoring"],
+  "industry": "Technology",
+  "career_goals": "Grow into a tech leadership role and mentor junior developers.",
+  "graduation_year": 2021,
+  "experience_years": 4
+}
