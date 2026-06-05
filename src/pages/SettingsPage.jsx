@@ -6,6 +6,8 @@ import {
   Smartphone
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import apiClient from '../utils/apiClient';
+import { API_ENDPOINTS } from '../config/api';
 import styles from './SettingsPage.module.css';
 
 const SECTIONS = [
@@ -31,10 +33,12 @@ const Toggle = ({ checked, onChange, id, label }) => (
 );
 
 const SettingsPage = () => {
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, logout } = useAuth();
   const [activeSection, setActiveSection] = useState('profile');
   const [saved, setSaved] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
 
   // Profile form
   const [profileForm, setProfileForm] = useState({
@@ -87,10 +91,35 @@ const SettingsPage = () => {
 
   const handleSave = () => {
     if (activeSection === 'profile') {
-      updateProfile(profileForm);
+      updateProfile({
+        full_name: profileForm.name,   // backend uses full_name
+        bio: profileForm.bio,
+        company: profileForm.company,
+        // location & role are stored in profile too
+        industry: profileForm.industry || user?.industry,
+      });
     }
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
+  };
+
+  const handleDeleteAccount = async () => {
+    const confirmed = window.confirm(
+      'Are you absolutely sure? This will permanently delete your account and ALL your data. This action CANNOT be undone.'
+    );
+    if (!confirmed) return;
+
+    setDeleteLoading(true);
+    setDeleteError('');
+    try {
+      await apiClient.delete(API_ENDPOINTS.DELETE_ACCOUNT);
+      // Clear local state and redirect to home
+      logout();
+      window.location.href = '/';
+    } catch (err) {
+      setDeleteError(err.message || 'Failed to delete account. Please try again.');
+      setDeleteLoading(false);
+    }
   };
 
   const renderSection = () => {
@@ -358,6 +387,22 @@ const SettingsPage = () => {
         return (
           <div className={styles.sectionContent}>
             <div className={styles.sectionTitle}>Danger Zone</div>
+            {deleteError && (
+              <div
+                role="alert"
+                style={{
+                  background: 'rgba(239,68,68,0.12)',
+                  border: '1px solid rgba(239,68,68,0.4)',
+                  borderRadius: 10,
+                  padding: '10px 16px',
+                  marginBottom: 16,
+                  color: '#ef4444',
+                  fontSize: 14,
+                }}
+              >
+                ⚠️ {deleteError}
+              </div>
+            )}
             <div className={styles.dangerBox}>
               <div className={styles.dangerItem}>
                 <div className={styles.dangerInfo}>
@@ -377,7 +422,14 @@ const SettingsPage = () => {
                     Permanently delete your account and all associated data. <strong>This action cannot be undone.</strong>
                   </p>
                 </div>
-                <button className={styles.dangerBtnRed}>Delete Account</button>
+                <button
+                  id="delete-account-btn"
+                  className={styles.dangerBtnRed}
+                  onClick={handleDeleteAccount}
+                  disabled={deleteLoading}
+                >
+                  {deleteLoading ? 'Deleting…' : 'Delete Account'}
+                </button>
               </div>
             </div>
           </div>
