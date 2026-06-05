@@ -8,11 +8,16 @@ class ProfileUpdate(BaseModel):
     role: Optional[str] = Field(None, description="Role: e.g., 'Student', 'Alumni', 'Mentor'")
     skills: Optional[List[str]] = Field(None, description="List of technical/soft skills")
     interests: Optional[List[str]] = Field(None, description="List of professional/academic interests")
-    industry: Optional[str] = Field(None, description="Industry sector: e.g., 'Software Development', 'Finance'")
+    industry: Optional[str] = Field(None, description="Industry sector")
     career_goals: Optional[str] = Field(None, description="Short summary of professional or collaboration goals")
     bio: Optional[str] = Field(None, description="Short personal/professional biography")
     graduation_year: Optional[int] = Field(None, description="Year of graduation")
     experience_years: Optional[int] = Field(None, description="Years of professional experience")
+    # Extended fields for registration & profile edit
+    university: Optional[str] = Field(None, description="University or college name")
+    degree: Optional[str] = Field(None, description="Degree obtained, e.g. B.Tech, MBA")
+    branch: Optional[str] = Field(None, description="Branch or specialization, e.g. Computer Science")
+    company: Optional[str] = Field(None, description="Current company or organization")
 
 class ProfileResponse(BaseModel):
     id: PyObjectId = Field(alias="_id")
@@ -27,6 +32,11 @@ class ProfileResponse(BaseModel):
     bio: str = ""
     graduation_year: Optional[int] = None
     experience_years: int = 0
+    # Extended fields
+    university: str = ""
+    degree: str = ""
+    branch: str = ""
+    company: str = ""
     created_at: datetime
     updated_at: datetime
 
@@ -47,6 +57,11 @@ class ProfileInDB(BaseModel):
     bio: str = ""
     graduation_year: Optional[int] = None
     experience_years: int = 0
+    # Extended fields
+    university: str = ""
+    degree: str = ""
+    branch: str = ""
+    company: str = ""
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
