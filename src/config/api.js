@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
   
   // User
   ME: '/api/me',
+  DELETE_ACCOUNT: '/api/me',
   VERSION: '/api/version',
   
   // Profile
