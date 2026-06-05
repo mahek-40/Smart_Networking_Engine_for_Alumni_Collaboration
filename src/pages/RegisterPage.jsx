@@ -48,6 +48,7 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -106,10 +107,17 @@ const RegisterPage = () => {
 
   const handleSubmit = async () => {
     if (!validate()) return;
+    setApiError('');
     setLoading(true);
-    await register(formData);
-    setLoading(false);
-    navigate('/dashboard');
+    try {
+      await register(formData);
+      navigate('/dashboard');
+    } catch (err) {
+      // Surface the real backend message (e.g. "email already registered")
+      setApiError(err.message || 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const progress = ((step - 1) / (STEPS.length - 1)) * 100;
@@ -153,6 +161,28 @@ const RegisterPage = () => {
 
         {/* Form Card */}
         <div className={styles.formCard}>
+          {/* API Error Banner */}
+          {apiError && (
+            <div
+              role="alert"
+              style={{
+                background: 'rgba(239,68,68,0.12)',
+                border: '1px solid rgba(239,68,68,0.4)',
+                borderRadius: 10,
+                padding: '10px 16px',
+                marginBottom: 16,
+                color: '#ef4444',
+                fontSize: 14,
+                fontWeight: 500,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+              }}
+            >
+              <span style={{ fontSize: 16 }}>⚠️</span>
+              {apiError}
+            </div>
+          )}
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
