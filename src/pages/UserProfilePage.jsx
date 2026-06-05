@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -14,12 +13,7 @@ import allMentors from '../data/mentors.json';
 import allRecommendations from '../data/recommendations.json';
 import styles from './UserProfilePage.module.css';
 
-const STATUS_LABELS = {
-  none: 'Connect',
-  pending: 'Pending...',
-  accepted: 'Connected',
-  rejected: 'Rejected',
-};
+
 
 const STATUS_CLASSES = {
   none: 'connectBtn',

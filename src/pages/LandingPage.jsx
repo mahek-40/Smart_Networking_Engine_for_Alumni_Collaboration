@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
-  Zap, ArrowRight, Users, Brain, Star, Shield, Search,
+  Zap, ArrowRight, Brain, Shield, Search,
   BarChart2, Network, GraduationCap, ChevronRight, Play,
-  CheckCircle, TrendingUp, Sparkles, Globe, Award
+  CheckCircle, Sparkles
 } from 'lucide-react';
 import Footer from '../components/layout/Footer';
 import styles from './LandingPage.module.css';
@@ -132,7 +132,6 @@ const NetworkGraph = () => (
 );
 
 const LandingPage = () => {
-  const navigate = useNavigate();
 
   return (
     <div className={styles.page}>

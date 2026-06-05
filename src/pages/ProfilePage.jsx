@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin, Briefcase, GraduationCap, Calendar, Globe, Edit3,
-  CheckCircle, Users, Eye, Star, MessageSquare, UserPlus,
+  CheckCircle, Users, Eye, Star, MessageSquare,
   Award, Target, Zap, Heart, TrendingUp, ExternalLink, X, Save
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -45,14 +45,24 @@ const buildTimeline = (user) => {
 
 const ProfilePage = () => {
   const { user, updateProfile } = useAuth();
-  const { getStatus, sendRequest } = useNetwork();
+  useNetwork(); // keep context alive
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({ bio: user?.bio || '', careerGoals: user?.careerGoals || '' });
   const [activeTab, setActiveTab] = useState('about');
   const [endorsed, setEndorsed] = useState({});
 
+  // Pre-compute stable endorsement counts using ref (computed once at mount)
+  const endorsementCountsRef = useRef(null);
+  if (!endorsementCountsRef.current) {
+    const counts = {};
+    (user?.skills || []).forEach(skill => {
+      counts[skill] = Math.floor(Math.random() * 5) + 1;
+    });
+    endorsementCountsRef.current = counts;
+  }
+  const endorsementCounts = endorsementCountsRef.current;
+
   const timeline = buildTimeline(user);
-  const connectionStatus = getStatus('current-self'); // This is your own profile so no connect button shown
 
   const handleSave = () => {
     updateProfile({
@@ -237,7 +247,7 @@ const ProfilePage = () => {
                     <div key={skill} className={styles.endorseRow}>
                       <SkillTag skill={skill} size="sm" />
                       <div className={styles.endorseRight}>
-                        <span className={styles.endorseCount}>{endorsed[skill] ? (Math.floor(Math.random() * 8) + 3) : (Math.floor(Math.random() * 5) + 1)} endorsements</span>
+                        <span className={styles.endorseCount}>{endorsed[skill] ? (endorsementCounts[skill] + 5) : endorsementCounts[skill]} endorsements</span>
                         <motion.button
                           className={`${styles.endorseBtn} ${endorsed[skill] ? styles.endorsedBtn : ''}`}
                           onClick={() => setEndorsed(p => ({ ...p, [skill]: true }))}

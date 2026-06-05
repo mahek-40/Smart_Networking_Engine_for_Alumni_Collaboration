@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Zap, GitBranch, Globe, X, Mail } from 'lucide-react';
 import styles from './Footer.module.css';

@@ -1,34 +1,68 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
+import connectionService from '../services/connectionService';
 
 const NetworkContext = createContext(null);
 
-const STORAGE_KEY = 'sne_connections';
-
 export const NetworkProvider = ({ children }) => {
-  const [connections, setConnections] = useState(() => {
+  const [connections, setConnections] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const loadConnectionStatuses = useCallback(async (userIds) => {
+    if (!userIds || userIds.length === 0) return;
+    
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : {};
-    } catch {
-      return {};
+      const statuses = {};
+      for (const userId of userIds) {
+        try {
+          const result = await connectionService.getStatus(userId);
+          statuses[userId] = result.status || 'none';
+        } catch {
+          statuses[userId] = 'none';
+        }
+      }
+      setConnections(prev => ({ ...prev, ...statuses }));
+    } catch (error) {
+      console.error('Failed to load connection statuses:', error);
     }
-  });
-
-  // Persist to localStorage whenever connections change
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(connections));
-  }, [connections]);
-
-  const sendRequest = useCallback((userId) => {
-    setConnections(prev => ({ ...prev, [userId]: 'pending' }));
   }, []);
 
-  const acceptRequest = useCallback((userId) => {
-    setConnections(prev => ({ ...prev, [userId]: 'accepted' }));
+  const sendRequest = useCallback(async (userId) => {
+    setLoading(true);
+    try {
+      await connectionService.sendRequest(userId);
+      setConnections(prev => ({ ...prev, [userId]: 'pending' }));
+    } catch (error) {
+      console.error('Failed to send connection request:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const rejectRequest = useCallback((userId) => {
-    setConnections(prev => ({ ...prev, [userId]: 'rejected' }));
+  const acceptRequest = useCallback(async (userId, connectionId) => {
+    setLoading(true);
+    try {
+      await connectionService.acceptRequest(connectionId);
+      setConnections(prev => ({ ...prev, [userId]: 'accepted' }));
+    } catch (error) {
+      console.error('Failed to accept connection:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const rejectRequest = useCallback(async (userId, connectionId) => {
+    setLoading(true);
+    try {
+      await connectionService.rejectRequest(connectionId);
+      setConnections(prev => ({ ...prev, [userId]: 'rejected' }));
+    } catch (error) {
+      console.error('Failed to reject connection:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const getStatus = useCallback((userId) => {
@@ -56,6 +90,7 @@ export const NetworkProvider = ({ children }) => {
   return (
     <NetworkContext.Provider value={{
       connections,
+      loading,
       sendRequest,
       acceptRequest,
       rejectRequest,
@@ -63,6 +98,7 @@ export const NetworkProvider = ({ children }) => {
       getAllPending,
       getAllAccepted,
       getAllRejected,
+      loadConnectionStatuses,
     }}>
       {children}
     </NetworkContext.Provider>

@@ -1,9 +1,8 @@
-import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft, Users, Clock, Star, CheckCircle, Plus,
-  Target, Briefcase, Code, Globe,
+  Target, Briefcase, Code,
 } from 'lucide-react';
 import { useProject } from '../contexts/ProjectContext';
 import SkillTag from '../components/shared/SkillTag';

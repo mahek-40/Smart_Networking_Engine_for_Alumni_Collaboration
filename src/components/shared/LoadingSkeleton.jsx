@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './LoadingSkeleton.module.css';
 
 const LoadingSkeleton = ({ width = '100%', height = '20px', borderRadius = '8px', className = '' }) => (

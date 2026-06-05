@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Search, Filter, X, Brain, Users, MapPin, Briefcase,
-  GraduationCap, Star, ChevronDown, CheckCircle, Zap, SlidersHorizontal
+  Search, X, Brain, Users, MapPin, Briefcase,
+  GraduationCap, Star, CheckCircle, Zap, SlidersHorizontal
 } from 'lucide-react';
 import CompatibilityRing from '../components/shared/CompatibilityRing';
 import SkillTag from '../components/shared/SkillTag';
@@ -41,13 +41,14 @@ const SmartSearchPage = () => {
   // Debounce search
   useEffect(() => {
     if (!query && !hasSearched) return;
-    setLoading(true);
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
       setHasSearched(true);
       setLoading(false);
     }, 350);
+    setLoading(true);
     return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   const toggleSkill = (skill) => {

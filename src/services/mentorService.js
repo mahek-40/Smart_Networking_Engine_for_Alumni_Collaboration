@@ -1,20 +1,30 @@
-import mentors from '../data/mentors.json';
+import apiClient from '../utils/apiClient';
+import { API_ENDPOINTS } from '../config/api';
+import { transformRecommendation } from '../utils/transformers';
 
 export const mentorService = {
   getAll: async (filters = {}) => {
-    await new Promise(r => setTimeout(r, 600));
-    let data = [...mentors];
-    if (filters.industry && filters.industry !== 'all') {
-      data = data.filter(m => m.industry?.toLowerCase().includes(filters.industry.toLowerCase()));
+    const params = new URLSearchParams();
+    if (filters.industry && filters.industry !== 'all' && filters.industry !== 'All') {
+      params.append('industry', filters.industry);
     }
     if (filters.minRating) {
-      data = data.filter(m => m.rating >= filters.minRating);
+      params.append('min_experience', filters.minRating);
     }
-    data.sort((a, b) => b.compatibilityScore - a.compatibilityScore);
-    return data;
+    params.append('page', filters.page || 1);
+    params.append('page_size', filters.page_size || 50);
+    
+    const queryString = params.toString();
+    const endpoint = `${API_ENDPOINTS.RECOMMENDATIONS_MENTORS}${queryString ? `?${queryString}` : ''}`;
+    
+    const response = await apiClient.get(endpoint);
+    const items = response.data || [];
+    
+    // Transform backend format to frontend format
+    return items.map(transformRecommendation);
   },
-  requestMentorship: async (mentorId) => {
-    await new Promise(r => setTimeout(r, 1000));
+  
+  requestMentorship: async (_mentorId) => {
     return { success: true, message: 'Mentorship request sent! You will hear back within 48 hours.' };
   },
 };

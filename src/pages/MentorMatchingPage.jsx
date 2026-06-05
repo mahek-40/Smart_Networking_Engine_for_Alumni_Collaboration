@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { GraduationCap, Search, Star, Clock, Users, CheckCircle, X, Brain, Zap, ExternalLink } from 'lucide-react';

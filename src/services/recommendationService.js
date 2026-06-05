@@ -1,29 +1,41 @@
-import recommendations from '../data/recommendations.json';
-import users from '../data/users.json';
+import apiClient from '../utils/apiClient';
+import { API_ENDPOINTS } from '../config/api';
+import { transformRecommendation } from '../utils/transformers';
 
 export const recommendationService = {
   getAll: async (filters = {}) => {
-    await new Promise(r => setTimeout(r, 600));
-    let data = [...recommendations];
-    if (filters.industry && filters.industry !== 'all') {
-      data = data.filter(r => r.industry?.toLowerCase().includes(filters.industry.toLowerCase()));
+    const params = new URLSearchParams();
+    if (filters.industry && filters.industry !== 'all' && filters.industry !== 'All') {
+      params.append('industry', filters.industry);
     }
     if (filters.minScore) {
-      data = data.filter(r => r.compatibilityScore >= filters.minScore);
+      params.append('min_score', filters.minScore);
     }
-    return data;
+    params.append('page', filters.page || 1);
+    params.append('page_size', filters.page_size || 50);
+    
+    const queryString = params.toString();
+    const endpoint = `${API_ENDPOINTS.RECOMMENDATIONS_SIMILAR}${queryString ? `?${queryString}` : ''}`;
+    
+    const response = await apiClient.get(endpoint);
+    const items = response.data || [];
+    
+    // Transform backend format to frontend format
+    return items.map(transformRecommendation);
   },
+  
   getById: async (id) => {
-    await new Promise(r => setTimeout(r, 300));
-    return recommendations.find(r => r.id === id) || null;
+    const response = await apiClient.get(API_ENDPOINTS.PROFILE_BY_ID(id));
+    return response.data;
   },
-  connect: async (userId) => {
-    await new Promise(r => setTimeout(r, 800));
+  
+  connect: async (_userId) => {
     return { success: true, message: 'Connection request sent!' };
   },
+  
   getAllUsers: async () => {
-    await new Promise(r => setTimeout(r, 500));
-    return users.filter(u => u.id !== 'current');
+    const response = await apiClient.get(`${API_ENDPOINTS.PROFILE_SEARCH}?page=1&page_size=100`);
+    return response.data || [];
   },
 };
 

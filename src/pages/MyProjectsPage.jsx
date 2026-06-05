@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Network, Clock, CheckCircle, XCircle, ExternalLink, Star } from 'lucide-react';

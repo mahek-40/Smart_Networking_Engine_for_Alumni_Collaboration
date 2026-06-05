@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './SkillTag.module.css';
 
 const SkillTag = ({ skill, variant = 'default', size = 'md', removable = false, onRemove, onClick }) => {

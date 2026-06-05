@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Users, Clock, CheckCircle, XCircle, ExternalLink } from 'lucide-react';
@@ -77,7 +77,7 @@ const ConnectionCard = ({ userId, status, onAccept, onReject }) => {
 };
 
 const MyNetworkPage = () => {
-  const { connections, getAllPending, getAllAccepted, getAllRejected, acceptRequest, rejectRequest } = useNetwork();
+  const { getAllPending, getAllAccepted, getAllRejected, acceptRequest, rejectRequest } = useNetwork();
   const [activeSection, setActiveSection] = useState('pending');
 
   const pending = getAllPending();

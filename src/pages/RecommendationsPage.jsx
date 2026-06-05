@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, Search, Filter, Brain, Users, ChevronDown, X, ExternalLink, Clock, CheckCircle } from 'lucide-react';
+import { Sparkles, Search, Brain, Users, ChevronDown, X, ExternalLink, Clock, CheckCircle } from 'lucide-react';
 import CompatibilityRing from '../components/shared/CompatibilityRing';
 import SkillTag from '../components/shared/SkillTag';
 import { CardSkeleton } from '../components/shared/LoadingSkeleton';
 import { useNetwork } from '../contexts/NetworkContext';
-import recommendations from '../data/recommendations.json';
+import recommendationService from '../services/recommendationService';
 import styles from './RecommendationsPage.module.css';
 
 const INDUSTRIES = ['All', 'Technology', 'AI Research', 'E-commerce', 'Artificial Intelligence'];
-const EXPERIENCES = ['All', '1-3 years', '3-5 years', '5-8 years', '8+ years'];
 
 const RecommendationsPage = () => {
   const navigate = useNavigate();
@@ -19,26 +18,45 @@ const RecommendationsPage = () => {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [industry, setIndustry] = useState('All');
-  const [experience, setExperience] = useState('All');
   const [minScore, setMinScore] = useState(0);
   const [expandedId, setExpandedId] = useState(null);
 
+  const loadRecommendations = useCallback(async () => {
+    setLoading(true);
+    try {
+      const filters = {
+        industry: industry !== 'All' ? industry : null,
+        minScore: minScore || 0,
+      };
+      const recommendations = await recommendationService.getAll(filters);
+      setData(recommendations);
+    } catch (error) {
+      console.error('Failed to load recommendations:', error);
+      setData([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [industry, minScore]);
+
   useEffect(() => {
-    setTimeout(() => { setData(recommendations); setLoading(false); }, 800);
-  }, []);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadRecommendations();
+  }, [loadRecommendations]);
 
   const filtered = data.filter(r => {
     const q = query.toLowerCase();
     const matchesQuery = !q || r.name.toLowerCase().includes(q) || r.role.toLowerCase().includes(q) ||
       r.industry.toLowerCase().includes(q) || r.skills.some(s => s.toLowerCase().includes(q));
-    const matchesIndustry = industry === 'All' || r.industry.toLowerCase().includes(industry.toLowerCase());
-    const matchesScore = r.compatibilityScore >= minScore;
-    return matchesQuery && matchesIndustry && matchesScore;
+    return matchesQuery;
   });
 
-  const handleConnect = (userId) => {
+  const handleConnect = async (userId) => {
     if (getStatus(userId) === 'none') {
-      sendRequest(userId);
+      try {
+        await sendRequest(userId);
+      } catch (error) {
+        console.error('Failed to send connection request:', error);
+      }
     }
   };
 
@@ -95,7 +113,7 @@ const RecommendationsPage = () => {
               {[0, 70, 80, 85, 90].map(v => <option key={v} value={v}>{v > 0 ? `${v}%+` : 'Any'}</option>)}
             </select>
           </div>
-          <button className={styles.resetBtn} onClick={() => { setQuery(''); setIndustry('All'); setMinScore(0); }}>
+          <button className={styles.resetBtn} onClick={() => { setQuery(''); setIndustry('All'); setMinScore(0); loadRecommendations(); }}>
             Reset Filters
           </button>
         </div>

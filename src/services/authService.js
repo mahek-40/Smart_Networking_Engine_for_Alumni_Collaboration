@@ -1,18 +1,40 @@
-// Mock auth service — no real API calls
+import apiClient from '../utils/apiClient';
+import { API_ENDPOINTS } from '../config/api';
+
 export const authService = {
   login: async (email, password) => {
-    await new Promise(r => setTimeout(r, 1000));
-    if (!email || !password) throw new Error('Email and password are required');
-    return { success: true, token: 'mock-jwt-token-12345', userId: 'current' };
+    const response = await apiClient.post(
+      API_ENDPOINTS.LOGIN,
+      { email, password },
+      { includeAuth: false }
+    );
+    return response;
   },
+  
   register: async (data) => {
-    await new Promise(r => setTimeout(r, 1500));
-    return { success: true, userId: 'current' };
+    const response = await apiClient.post(
+      API_ENDPOINTS.REGISTER,
+      {
+        email: data.email,
+        password: data.password,
+        full_name: data.name || data.full_name,
+      },
+      { includeAuth: false }
+    );
+    return response;
   },
-  logout: async () => { await new Promise(r => setTimeout(r, 300)); return { success: true }; },
+  
+  logout: async () => {
+    return { success: true };
+  },
+  
   resetPassword: async (email) => {
-    await new Promise(r => setTimeout(r, 800));
     return { success: true, message: `Password reset link sent to ${email}` };
+  },
+  
+  getCurrentUser: async () => {
+    const response = await apiClient.get(API_ENDPOINTS.ME);
+    return response;
   },
 };
 

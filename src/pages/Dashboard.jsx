@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  Users, BookOpen, Star, Eye, ArrowRight, Brain, Sparkles,
-  TrendingUp, Clock, Zap, ChevronRight
+  Users, BookOpen, Star, Eye, Brain, Sparkles,
+  TrendingUp, Clock, ChevronRight
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import CompatibilityRing from '../components/shared/CompatibilityRing';
@@ -42,14 +42,13 @@ const getActivityIcon = (type) => {
 const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [greeting, setGreeting] = useState('Good morning');
-
-  useEffect(() => {
+  const getGreeting = () => {
     const h = new Date().getHours();
-    if (h < 12) setGreeting('Good morning');
-    else if (h < 17) setGreeting('Good afternoon');
-    else setGreeting('Good evening');
-  }, []);
+    if (h < 12) return 'Good morning';
+    if (h < 17) return 'Good afternoon';
+    return 'Good evening';
+  };
+  const [greeting] = useState(getGreeting);
 
   const topRecs = recommendations.slice(0, 4);
   const topMentors = mentors.slice(0, 3);

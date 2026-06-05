@@ -1,25 +1,23 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
+import projectService from '../services/projectService';
 
 const ProjectContext = createContext(null);
 
-const STORAGE_KEY = 'sne_projects';
-
 export const ProjectProvider = ({ children }) => {
-  const [projectStatus, setProjectStatus] = useState(() => {
+  const [projectStatus, setProjectStatus] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const applyToProject = useCallback(async (projectId) => {
+    setLoading(true);
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : {};
-    } catch {
-      return {};
+      await projectService.apply(projectId);
+      setProjectStatus(prev => ({ ...prev, [projectId]: 'pending' }));
+    } catch (error) {
+      console.error('Failed to apply to project:', error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
-  });
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(projectStatus));
-  }, [projectStatus]);
-
-  const applyToProject = useCallback((projectId) => {
-    setProjectStatus(prev => ({ ...prev, [projectId]: 'pending' }));
   }, []);
 
   const acceptApplication = useCallback((projectId) => {
@@ -55,6 +53,7 @@ export const ProjectProvider = ({ children }) => {
   return (
     <ProjectContext.Provider value={{
       projectStatus,
+      loading,
       applyToProject,
       acceptApplication,
       rejectApplication,

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   User, Lock, Bell, Brain, Shield, Trash2, ChevronRight,
   Save, Check, Eye, EyeOff, AlertTriangle, Zap, Globe,
-  Moon, Sun, Smartphone
+  Smartphone
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import styles from './SettingsPage.module.css';

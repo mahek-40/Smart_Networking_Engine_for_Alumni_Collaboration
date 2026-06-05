@@ -1,17 +1,28 @@
-import analytics from '../data/analytics.json';
+import apiClient from '../utils/apiClient';
+import { API_ENDPOINTS } from '../config/api';
 
 export const analyticsService = {
   getAll: async () => {
-    await new Promise(r => setTimeout(r, 500));
-    return analytics;
+    const overview = await apiClient.get(API_ENDPOINTS.ANALYTICS_OVERVIEW);
+    const skills = await apiClient.get(API_ENDPOINTS.ANALYTICS_SKILLS);
+    const industries = await apiClient.get(API_ENDPOINTS.ANALYTICS_INDUSTRIES);
+    
+    return {
+      kpis: overview.data?.metrics || {},
+      topSkills: skills.data || [],
+      topIndustries: industries.data || [],
+      recentActivities: overview.data?.recent_activities || [],
+    };
   },
+  
   getKPIs: async () => {
-    await new Promise(r => setTimeout(r, 300));
-    return analytics.kpis;
+    const response = await apiClient.get(API_ENDPOINTS.ANALYTICS_OVERVIEW);
+    return response.data?.metrics || {};
   },
+  
   getProfileViews: async () => {
-    await new Promise(r => setTimeout(r, 400));
-    return analytics.profileViews;
+    const response = await apiClient.get(API_ENDPOINTS.ANALYTICS_OVERVIEW);
+    return response.data?.metrics || {};
   },
 };
 
