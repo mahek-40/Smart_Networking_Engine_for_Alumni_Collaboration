@@ -60,6 +60,11 @@ async def register(user_data: UserRegister):
         "bio": "",
         "graduation_year": None,
         "experience_years": 0,
+        # Extended fields — empty defaults, updated by the frontend after signup
+        "university": "",
+        "degree": "",
+        "branch": "",
+        "company": "",
         "created_at": now,
         "updated_at": now,
     }
