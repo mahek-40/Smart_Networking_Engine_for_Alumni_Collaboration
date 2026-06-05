@@ -47,7 +47,15 @@ const ProfilePage = () => {
   const { user, updateProfile } = useAuth();
   useNetwork(); // keep context alive
   const [isEditing, setIsEditing] = useState(false);
-  const [editForm, setEditForm] = useState({ bio: user?.bio || '', careerGoals: user?.careerGoals || '' });
+  const [editForm, setEditForm] = useState({
+    bio: user?.bio || '',
+    career_goals: user?.careerGoals || user?.career_goals || '',
+    university: user?.university || '',
+    degree: user?.degree || '',
+    branch: user?.branch || '',
+    company: user?.company || '',
+    industry: user?.industry || '',
+  });
   const [activeTab, setActiveTab] = useState('about');
   const [endorsed, setEndorsed] = useState({});
 
@@ -66,9 +74,14 @@ const ProfilePage = () => {
 
   const handleSave = () => {
     updateProfile({
-      ...editForm,
-      university: editForm.university ?? user?.university,
-      branch: editForm.branch ?? user?.branch,
+      bio: editForm.bio,
+      // Send snake_case to match the backend ProfileUpdate model
+      career_goals: editForm.career_goals,
+      university: editForm.university ?? user?.university ?? '',
+      degree: editForm.degree ?? user?.degree ?? '',
+      branch: editForm.branch ?? user?.branch ?? '',
+      company: editForm.company ?? user?.company ?? '',
+      industry: editForm.industry ?? user?.industry ?? '',
     });
     setIsEditing(false);
   };
@@ -373,8 +386,8 @@ const ProfilePage = () => {
                 <label className={styles.formLabel}>Career Goals</label>
                 <textarea
                   className={styles.formTextarea}
-                  value={editForm.careerGoals}
-                  onChange={e => setEditForm(p => ({ ...p, careerGoals: e.target.value }))}
+                  value={editForm.career_goals}
+                  onChange={e => setEditForm(p => ({ ...p, career_goals: e.target.value }))}
                   rows={3}
                   id="edit-career-goals"
                 />
@@ -382,7 +395,7 @@ const ProfilePage = () => {
                 <input
                   className={styles.formTextarea}
                   style={{ height: 'auto', padding: '10px 14px' }}
-                  value={editForm.university ?? user?.university ?? ''}
+                  value={editForm.university}
                   onChange={e => setEditForm(p => ({ ...p, university: e.target.value }))}
                   id="edit-university"
                   placeholder="e.g. IIT Bombay"
@@ -391,10 +404,37 @@ const ProfilePage = () => {
                 <input
                   className={styles.formTextarea}
                   style={{ height: 'auto', padding: '10px 14px' }}
-                  value={editForm.branch ?? user?.branch ?? ''}
+                  value={editForm.branch}
                   onChange={e => setEditForm(p => ({ ...p, branch: e.target.value }))}
                   id="edit-branch"
                   placeholder="e.g. Computer Science"
+                />
+                <label className={styles.formLabel}>Degree</label>
+                <input
+                  className={styles.formTextarea}
+                  style={{ height: 'auto', padding: '10px 14px' }}
+                  value={editForm.degree}
+                  onChange={e => setEditForm(p => ({ ...p, degree: e.target.value }))}
+                  id="edit-degree"
+                  placeholder="e.g. B.Tech"
+                />
+                <label className={styles.formLabel}>Company / Organization</label>
+                <input
+                  className={styles.formTextarea}
+                  style={{ height: 'auto', padding: '10px 14px' }}
+                  value={editForm.company}
+                  onChange={e => setEditForm(p => ({ ...p, company: e.target.value }))}
+                  id="edit-company"
+                  placeholder="e.g. Google, IIT Bombay"
+                />
+                <label className={styles.formLabel}>Industry</label>
+                <input
+                  className={styles.formTextarea}
+                  style={{ height: 'auto', padding: '10px 14px' }}
+                  value={editForm.industry}
+                  onChange={e => setEditForm(p => ({ ...p, industry: e.target.value }))}
+                  id="edit-industry"
+                  placeholder="e.g. Technology"
                 />
               </div>
               <div className={styles.modalActions}>
