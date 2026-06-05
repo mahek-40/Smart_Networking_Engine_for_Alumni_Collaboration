@@ -33,6 +33,7 @@ from app.routes.recommendations import router as recommendations_router
 from app.routes.analytics import router as analytics_router
 from app.routes.user import router as user_router
 from app.routes.admin import router as admin_router
+from app.routes.connections import router as connections_router
 
 logger = get_logger(__name__)
 
@@ -140,6 +141,7 @@ app.include_router(profile_router, prefix="/api")
 app.include_router(recommendations_router, prefix="/api")
 app.include_router(analytics_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
+app.include_router(connections_router, prefix="/api")
 
 # ─── Global exception handlers ────────────────────────────────────────────────
 
