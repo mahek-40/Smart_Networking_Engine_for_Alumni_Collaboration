@@ -1,8 +1,15 @@
 import { API_BASE_URL } from '../config/api';
 
+// Guard: strip a trailing "/api" from the base URL so endpoint paths like
+// "/api/auth/login" are never double-prefixed to ".../api/api/auth/login".
+function sanitizeBaseURL(url) {
+  if (!url) return '';
+  return url.replace(/\/api\/?$/, '');
+}
+
 class ApiClient {
   constructor() {
-    this.baseURL = API_BASE_URL;
+    this.baseURL = sanitizeBaseURL(API_BASE_URL);
   }
 
   getAuthToken() {
@@ -39,11 +46,20 @@ class ApiClient {
 
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, config);
-      
-      const data = await response.json();
+
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
+      }
 
       if (!response.ok) {
-        throw new Error(data.message || 'Request failed');
+        // FastAPI returns { detail: "..." } for HTTPException,
+        // and our custom handler returns { message: "..." }.
+        const message =
+          data.detail || data.message || `Request failed (${response.status})`;
+        throw new Error(message);
       }
 
       return data;
