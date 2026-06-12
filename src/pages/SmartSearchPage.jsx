@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, X, Brain, Users, MapPin, Briefcase,
@@ -8,7 +8,8 @@ import CompatibilityRing from '../components/shared/CompatibilityRing';
 import SkillTag from '../components/shared/SkillTag';
 import EmptyState from '../components/shared/EmptyState';
 import { CardSkeleton } from '../components/shared/LoadingSkeleton';
-import users from '../data/users.json';
+import profileService from '../services/profileService';
+import { transformProfile } from '../utils/transformers';
 import styles from './SmartSearchPage.module.css';
 
 const ALL_INDUSTRIES = ['All', 'Technology', 'E-commerce', 'AI Research', 'Artificial Intelligence', 'Web3 / Fintech', 'IT Services'];
@@ -19,6 +20,9 @@ const SORT_OPTIONS = ['Relevance', 'Match Score', 'Connections', 'Newest'];
 const TRENDING_SEARCHES = ['AI Research', 'Product Manager at Google', 'React Developer', 'Data Scientist', 'Startup Founder'];
 
 const SmartSearchPage = () => {
+  const [allUsers, setAllUsers] = useState([]);
+  const [apiLoading, setApiLoading] = useState(true);
+  const [apiError, setApiError] = useState(null);
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,6 +34,27 @@ const SmartSearchPage = () => {
   const [connected, setConnected] = useState({});
   const [hasSearched, setHasSearched] = useState(false);
   const [locationFilter, setLocationFilter] = useState('');
+
+  // Fetch all profiles from backend once on mount
+  const fetchProfiles = useCallback(async () => {
+    setApiLoading(true);
+    setApiError(null);
+    try {
+      const data = await profileService.searchProfiles({ page: 1, page_size: 100 });
+      const profiles = Array.isArray(data) ? data : [];
+      setAllUsers(profiles.map(transformProfile));
+    } catch (err) {
+      console.error('Failed to load profiles from backend:', err);
+      setApiError('Could not load profiles from backend. Showing empty results.');
+      setAllUsers([]);
+    } finally {
+      setApiLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchProfiles();
+  }, [fetchProfiles]);
 
   // Read query from URL params on mount
   useEffect(() => {
@@ -59,20 +84,20 @@ const SmartSearchPage = () => {
 
   const filtered = useMemo(() => {
     const q = debouncedQuery.toLowerCase().trim();
-    let results = users.filter(u => u.id !== 'current');
+    let results = allUsers.filter(u => u.id !== 'current');
 
     if (q) {
       results = results.filter(u =>
-        u.name.toLowerCase().includes(q) ||
-        u.role.toLowerCase().includes(q) ||
-        u.company.toLowerCase().includes(q) ||
-        u.industry.toLowerCase().includes(q) ||
-        u.skills.some(s => s.toLowerCase().includes(q)) ||
-        u.bio.toLowerCase().includes(q)
+        (u.name || '').toLowerCase().includes(q) ||
+        (u.role || '').toLowerCase().includes(q) ||
+        (u.company || '').toLowerCase().includes(q) ||
+        (u.industry || '').toLowerCase().includes(q) ||
+        (u.skills || []).some(s => s.toLowerCase().includes(q)) ||
+        (u.bio || '').toLowerCase().includes(q)
       );
     }
     if (industry !== 'All') {
-      results = results.filter(u => u.industry.toLowerCase().includes(industry.toLowerCase()));
+      results = results.filter(u => (u.industry || '').toLowerCase().includes(industry.toLowerCase()));
     }
     if (experience !== 'All') {
       results = results.filter(u => {
@@ -85,18 +110,18 @@ const SmartSearchPage = () => {
       });
     }
     if (selectedSkills.length > 0) {
-      results = results.filter(u => selectedSkills.some(s => u.skills.includes(s)));
+      results = results.filter(u => selectedSkills.some(s => (u.skills || []).includes(s)));
     }
     if (locationFilter.trim()) {
-      results = results.filter(u => u.location.toLowerCase().includes(locationFilter.toLowerCase()));
+      results = results.filter(u => (u.location || '').toLowerCase().includes(locationFilter.toLowerCase()));
     }
 
     // Sort
-    if (sortBy === 'Match Score') results = [...results].sort((a, b) => b.compatibilityScore - a.compatibilityScore);
-    else if (sortBy === 'Connections') results = [...results].sort((a, b) => b.connections - a.connections);
+    if (sortBy === 'Match Score') results = [...results].sort((a, b) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0));
+    else if (sortBy === 'Connections') results = [...results].sort((a, b) => (b.connections || 0) - (a.connections || 0));
 
     return results;
-  }, [debouncedQuery, industry, experience, selectedSkills, sortBy, locationFilter]);
+  }, [debouncedQuery, industry, experience, selectedSkills, sortBy, locationFilter, allUsers]);
 
   const hasActiveFilters = industry !== 'All' || experience !== 'All' || selectedSkills.length > 0 || locationFilter;
 
@@ -115,6 +140,12 @@ const SmartSearchPage = () => {
 
   return (
     <div className={styles.page}>
+      {/* API-level error banner */}
+      {apiError && (
+        <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', padding: '10px 18px', borderRadius: 8, margin: '12px 0', fontSize: 14 }}>
+          ⚠️ {apiError}
+        </div>
+      )}
       {/* Search Hero */}
       <motion.div
         className={styles.hero}
@@ -275,7 +306,7 @@ const SmartSearchPage = () => {
 
           {/* Grid */}
           <div className={styles.grid}>
-            {loading ? (
+            {(loading || apiLoading) ? (
               Array(4).fill(0).map((_, i) => <CardSkeleton key={i} />)
             ) : filtered.length === 0 ? (
               <div className={styles.emptyWrapper}>
