@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
   Network, Brain, Zap, Users, TrendingUp, CheckCircle,
-  Clock, Star, ChevronRight, Target, Sparkles, Plus, X, UserPlus
+  Clock, Star, ChevronRight, Target, Sparkles, Plus, X, UserPlus, AlertCircle
 } from 'lucide-react';
 import CompatibilityRing from '../components/shared/CompatibilityRing';
 import SkillTag from '../components/shared/SkillTag';
 import StatCard from '../components/shared/StatCard';
 import { CardSkeleton } from '../components/shared/LoadingSkeleton';
 import { useProject } from '../contexts/ProjectContext';
+import recommendationService from '../services/recommendationService';
 import collaborationData from '../data/collaborations.json';
 import styles from './CollaborationPage.module.css';
 
@@ -22,22 +23,45 @@ const STAGE_COLORS = {
   'Research Phase': { bg: '#F0FDF4', text: '#14532D' },
 };
 
+// Map recommendation record into the prediction card shape
+const toPrediction = (rec) => ({
+  userId: rec.userId || rec.id,
+  name: rec.name || 'Unknown',
+  avatar: rec.avatar || `https://api.dicebear.com/8.x/avataaars/svg?seed=${encodeURIComponent(rec.name || 'user')}`,
+  score: rec.compatibilityScore || 0,
+  reason: rec.aiInsight || rec.match_reason || 'High collaboration potential based on shared skills.',
+});
+
 const CollaborationPage = () => {
   const navigate = useNavigate();
   const { getProjectStatus, applyToProject } = useProject();
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [predictions, setPredictions] = useState([]);
+  const [apiError, setApiError] = useState(null);
   const [applying, setApplying] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showScoreModal, setShowScoreModal] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
+    const load = async () => {
+      setLoading(true);
+      setApiError(null);
+      // Projects: static data (no projects backend yet)
       setProjects(collaborationData.activeProjects);
-      setPredictions(collaborationData.predictionScores);
-      setLoading(false);
-    }, 800);
+      // Predictions: live from ML recommendation engine
+      try {
+        const recs = await recommendationService.getAll({ page_size: 6 });
+        setPredictions(recs.slice(0, 6).map(toPrediction));
+      } catch (err) {
+        console.error('Failed to load collaboration predictions:', err);
+        setApiError('Could not load AI predictions. Showing fallback data.');
+        setPredictions(collaborationData.predictionScores || []);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
 
   const handleApply = async (projectId) => {
@@ -57,6 +81,11 @@ const CollaborationPage = () => {
 
   return (
     <div className={styles.page}>
+      {apiError && (
+        <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', padding: '10px 18px', borderRadius: 8, margin: '12px 0', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <AlertCircle size={16} /> {apiError}
+        </div>
+      )}
       {/* Hero */}
       <motion.div
         className={styles.hero}
